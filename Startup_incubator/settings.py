@@ -83,3 +83,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
 )
+
+STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL  = '/media/'
