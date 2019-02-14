@@ -16,7 +16,7 @@ class Startup(models.Model):
 	address = models.CharField( max_length= 100 , null=True)
 	phone_number = models.CharField( max_length= 100 , null=True)
 	email = models.CharField( max_length= 100 , null=True)
-	description = models.CharField( max_length= 100 , null=True)
+	description = models.CharField( max_length= 10000 , null=True)
 	dipp = models.BooleanField(default=False)
 	#recommended_investors = models.ManyToManyField(Investor,blank=True)
 
@@ -26,10 +26,12 @@ class Connection_investor(models.Model):
 	investor = models.ForeignKey(Investor,on_delete=models.CASCADE,null=True)
 	S_to_I = models.BooleanField(default=True)
 	accepted = models.BooleanField(default=False)
+	pending = models.BooleanField(default=True)
 
 class Connection_mentor(models.Model):
 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE,null=True)
 	mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE,null=True)
 	S_to_M = models.BooleanField(default=True)
 	accepted = models.BooleanField(default=False)
+	pending = models.BooleanField(default=True)
 
