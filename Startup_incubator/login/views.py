@@ -62,39 +62,40 @@ def register(request):
 		startup.phone_number = mobile
 		startup.image = image
 		startup.save()
-		return redirect("startup/")
+		return redirect("/startup/")
 
+
+
+@csrf_exempt
 def index(request):
-	pass
-
-
-
-def login_user(request):
 	if request.method =='GET':
-		return render(request,'user_panel/register.html')
+		return render(request,'front/login.html')
 	else:
 		email = request.POST['email']
 		password = request.POST['password']
-		cat = request.POST['type']
 		
-		user = User.objects.get(email=email)
-		user = authenticate(username=user1.username, password=password)
+		try:
+			user = User.objects.get(email=email)
+			user = authenticate(username=user.username, password=password)
+		except:
+			return render(request, 'front/login.html', {'error_message': 'Incorrect Credentials'})
 		if user is not None:
 			if user.is_active:
 				login(request,user)
 				user1 = Type.objects.get(user_id=user.id)
 				if user1.type == "startup":
 					startup = Startup.objects.get(user_id=user1.id)
-
+					return redirect("/startup/")
 				if user1.type == "investor":
 					startup = Investor.objects.get(user_id=user1.id)
 				if user1.type == "mentor":
 					startup = Mentor.objects.get(user_id=user1.id)
-				pass
+				
 			else:
-				return HttpResponse("tsdasd");
+				return render(request, 'front/login.html', {'error_message': 'Your account has been disabled'})
 
-
+		else:
+			return render(request, 'front/login.html', {'error_message': 'Invalid login'})
 
 
 

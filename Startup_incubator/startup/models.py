@@ -51,7 +51,7 @@ class Incubation_request(models.Model):
 	accepted = models.BooleanField(default=False)
 
 
-TASK_STATUS = ( ('Pending'),('In Progress'),('Completed') )
+TASK_STATUS = ( ('Pending','Pending'),('In Progress','In Progress') )
 class Tasks(models.Model):
 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
 	status = models.CharField(max_length=500, blank=False, null=False, default='Pending', choices=TASK_STATUS)
