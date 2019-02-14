@@ -25,6 +25,7 @@ def register(request):
 		founder_address = request.POST.get('founder_address')
 		#dipp = request.POST['dipp']
 		address = request.POST['address']
+		typ = request.POST['type']
 		email = request.POST['email']
 		description = request.POST['description']
 		mobile = request.POST['mobile']
@@ -61,13 +62,14 @@ def register(request):
 		startup.description = description
 		startup.phone_number = mobile
 		startup.image = image
+		startup.cat = typ
 		startup.save()
-		return redirect("/startup/")
+		return redirect("/login/")
 
 
 
 @csrf_exempt
-def index(request):
+def login_user(request):
 	if request.method =='GET':
 		return render(request,'front/login.html')
 	else:
