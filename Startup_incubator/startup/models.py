@@ -42,3 +42,20 @@ class Connection_mentor(models.Model):
 	S_to_M = models.BooleanField(default=True)
 	accepted = models.BooleanField(default=False)
 	pending = models.BooleanField(default=True)
+
+
+class Incubation_request(models.Model):
+	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
+	ppt = models.FileField(null=True,upload_to='Incubation_ppts/')
+	pending = models.BooleanField(default=True)
+	accepted = models.BooleanField(default=False)
+
+
+TASK_STATUS = ( ('Pending'),('In Progress'),('Completed') )
+class Tasks(models.Model):
+	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
+	status = models.CharField(max_length=500, blank=False, null=False, default='Pending', choices=TASK_STATUS)
+	date_assigned = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+
+# image = models.ImageField(upload_to='category/', default="/media/category/default.png")
