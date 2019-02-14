@@ -3,10 +3,15 @@ from django.http import HttpResponse
 from investor.models import Investor
 from recommendations.train import train_model
 from recommendations.test import predict
+from .models import Startup
 
-def index(request):
-	return render(request,"startup/register.html")
-	return HttpResponse('hello')
+
+def dashboard(request):
+	
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	print(startup.name)
+	return render(request,"startup/dashboard.html",{'startup':startup})
+	
 
 
 def get_recommendations(request):

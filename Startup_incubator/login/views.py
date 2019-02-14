@@ -67,9 +67,12 @@ def register(request):
 
 
 @csrf_exempt
-def index(request):
+def login_user(request):
 	if request.method =='GET':
-		return render(request,'front/login.html')
+		if not request.user.is_authenticated():
+			return render(request,'front/login.html')
+		else:
+			return redirect("/startup/")
 	else:
 		email = request.POST['email']
 		password = request.POST['password']
