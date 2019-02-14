@@ -4,13 +4,15 @@ from investor.models import Investor
 from recommendations.train import train_model
 from recommendations.test import predict
 from .models import Startup
+from mentor.models import Mentor
 
 
 def dashboard(request):
-	
-	startup = Startup.objects.get(user__user_id=request.user.id)
-	print(startup.name)
-	return render(request,"startup/dashboard.html",{'startup':startup})
+	if request.user.is_authenticated() :
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		return render(request,"startup/dashboard.html",{'startup':startup})
+	else:
+		return redirect('/login')
 	
 
 
@@ -40,3 +42,51 @@ def train(request):
 	train_model()
 
 	return HttpResponse('trained successfully !')
+
+
+
+def about_us(request):
+	if request.user.is_authenticated() :
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		print(startup.name)
+		return render(request,"startup/about.html",{'startup':startup})
+	else:
+		return render(request,'front/login.html')
+	
+def mentors(request):
+	if request.user.is_authenticated() :
+		mentors = Mentor.objects.all()
+		size = len(mentors)
+		left = int(size/2)
+
+		mentors_right = mentors[:left]
+		mentors_left = mentors[left:]
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		return render(request,"startup/mentor.html",{'mentors_left':mentors_left,
+													'mentors_right':mentors_right,
+													'startup':startup})
+	else:
+		return render(request,'front/login.html')
+
+def mentor_profile_popup(request,pk):
+	mentor = Mentor.objects.get(id=pk)
+	return render(request,'startup/mentor_profile_popup.html',{'mentor':mentor})
+
+def investors(request):
+	if request.user.is_authenticated() :
+		investors = Investor.objects.all()
+		size = len(investors)
+		left = int(size/2)
+
+		investors_right = investors[:left]
+		investors_left = investors[left:]
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		return render(request,"startup/investor.html",{'investors_left':investors_left,
+													'investors_right':investors_right,
+													'startup':startup})
+	else:
+		return render(request,'front/login.html')
+
+def investor_profile_popup(request,pk):
+	investor = Investor.objects.get(id=pk)
+	return render(request,'startup/investor_profile_popup.html',{'investor':investor})
