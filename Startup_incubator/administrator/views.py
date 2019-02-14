@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from .models import Incubation,Fund
 from django.shortcuts import render
 from startup.models import Startup,Founder
 from login.models import Type
@@ -114,3 +114,12 @@ def update_info(request):
 	updates.info = info
 	updates.save()
 	return HttpResponse("updates added")
+
+def show_incubation(request):
+	incubation = Incubation.objects.filter(clicked=False)
+	return render(request, 'administrator/showincubation.html',{'incubation':incubation})
+
+
+def show_fund(request):
+	fund = Fund.objects.filter(clicked=False)
+	return render(request, 'administrator/showfund.html',{'fund':fund})

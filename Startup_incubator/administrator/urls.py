@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^show_mentors$', views.show_mentors, name='show_mentors'),
     url(r'^upload_documents$', views.upload_documents, name='upload_documents'),
     url(r'^update_info$', views.update_info, name='update_info'),
+    url(r'^show_incubation$', views.show_incubation, name='show_incunbation'),
+    url(r'^show_funds$', views.show_fund, name='show_fund'),
 
 
 ]

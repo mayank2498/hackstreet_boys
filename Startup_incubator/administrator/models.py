@@ -16,6 +16,7 @@ class Fund(models.Model):
 	startup = models.ForeignKey(Startup,null=True,on_delete=models.CASCADE)
 	ppt = models.FileField(upload_to='documents/')
 	accept = models.BooleanField(default=False)
+	clicked = models.BooleanField(default=False)
 	date = models.DateField(default=datetime.date.today)
 
 class Incubation(models.Model):
@@ -23,4 +24,5 @@ class Incubation(models.Model):
 	date = models.DateField(default=datetime.date.today)
 	accept = models.BooleanField(default=False)
 	ppt = models.FileField(upload_to='documents/')
+	clicked = models.BooleanField(default=False)
 	ddip = models.BooleanField(default=False)
