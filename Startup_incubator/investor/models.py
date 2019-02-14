@@ -1,9 +1,11 @@
 from django.db import models
 
 import startup
-
+from login.models import Type
 
 class Investor(models.Model):
+	
+	user = models.ForeignKey(Type,on_delete=models.CASCADE)
 	name = models.CharField( max_length= 100 , null=True)
 	email = models.CharField( max_length= 100 , null=True)
 	phone_number = models.CharField( max_length= 100 , null=True)

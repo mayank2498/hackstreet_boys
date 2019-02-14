@@ -1,6 +1,8 @@
 from django.db import models
 from investor.models import Investor
 from mentor.models import Mentor
+from django.contrib.auth.models import User
+from login.models import Type
 
 class Founder(models.Model):
 	name = models.CharField( max_length= 100 , null=True)
@@ -9,8 +11,9 @@ class Founder(models.Model):
 	address = models.CharField( max_length= 100 , null=True)
 
 class Startup(models.Model):
+	user = models.ForeignKey(Type,on_delete=models.CASCADE)
 	name  = models.CharField( max_length= 100 , null=True)
-	founders = models.ManyToManyField(Founder,blank=True)
+	founder = models.OneToOneField(Founder,blank=True)
 	investors = models.ManyToManyField(Investor,blank=True)
 	mentors = models.ManyToManyField(Mentor,blank=True)
 	address = models.CharField( max_length= 100 , null=True)
@@ -18,6 +21,8 @@ class Startup(models.Model):
 	email = models.CharField( max_length= 100 , null=True)
 	description = models.CharField( max_length= 10000 , null=True)
 	dipp = models.BooleanField(default=False)
+	image = models.FileField(null=True)
+	dippno = models.CharField(max_length=100,blank=True,null=True)
 	#recommended_investors = models.ManyToManyField(Investor,blank=True)
 
 
