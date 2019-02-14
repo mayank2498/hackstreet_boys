@@ -3,3 +3,6 @@
  - source activate myenv
  - pip install -r requirements.txt
   - python manage.py runserver
+ 
+### Maintaining requirements.txt file ( register packages based on imports )
+ - pipreqs . --force
