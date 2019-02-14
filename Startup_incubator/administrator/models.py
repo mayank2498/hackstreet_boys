@@ -20,7 +20,7 @@ class Fund(models.Model):
 	date = models.DateField(default=datetime.date.today)
 
 class Incubation(models.Model):
-	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
+	#startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
 	date = models.DateField(default=datetime.date.today)
 	accept = models.BooleanField(default=False)
 	ppt = models.FileField(upload_to='documents/')
