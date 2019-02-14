@@ -23,7 +23,7 @@ class Startup(models.Model):
 	email = models.CharField( max_length= 100 , null=True)
 	description = models.CharField( max_length= 10000 , null=True)
 	dipp = models.BooleanField(default=False)
-	image = models.FileField(upload_to='profile_photos/')
+	image = models.FileField(upload_to='profile_photos/',default='profile_photos/default.jpg')
 	dippno = models.CharField(max_length=100,blank=True,null=True)
 	cat = models.CharField(max_length=100,blank=True,null=True)
 	#recommended_investors = models.ManyToManyField(Investor,blank=True)
