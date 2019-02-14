@@ -9,6 +9,8 @@ class Founder(models.Model):
 	email = models.CharField( max_length= 100 , null=True)
 	phone_number = models.CharField( max_length= 100 , null=True)
 	address = models.CharField( max_length= 100 , null=True)
+	def __str__(self):
+		return str(self.name)
 
 class Startup(models.Model):
 	user = models.ForeignKey(Type,on_delete=models.CASCADE)
@@ -24,7 +26,8 @@ class Startup(models.Model):
 	image = models.FileField(null=True)
 	dippno = models.CharField(max_length=100,blank=True,null=True)
 	#recommended_investors = models.ManyToManyField(Investor,blank=True)
-
+	def __str__(self):
+		return str(self.name)
 
 class Connection_investor(models.Model):
 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE,null=True)
@@ -39,4 +42,3 @@ class Connection_mentor(models.Model):
 	S_to_M = models.BooleanField(default=True)
 	accepted = models.BooleanField(default=False)
 	pending = models.BooleanField(default=True)
-
