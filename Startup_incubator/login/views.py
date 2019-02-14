@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from django.contrib.auth import logout
 # Create your views here.
 
 @csrf_exempt
@@ -61,9 +61,12 @@ def register(request):
 		startup.founder_id = f1.id
 		startup.description = description
 		startup.phone_number = mobile
-		startup.image = image
+		print(image)
+		if image is not False:
+			startup.image = image
 		startup.cat = typ
 		startup.save()
+		logout(request)
 		return redirect("/login/")
 
 

@@ -6,3 +6,10 @@
  
 ### Maintaining requirements.txt file ( register packages based on imports )
  - pipreqs . --force
+
+### Migration Error resolve
+ - delete administration migrations
+ - comment erroneous foreign keys (startup)
+ - python manage.py makemigrations administrator
+ - python manage.py migrate
+ - Uncomment and migrate administrator
