@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^investor/',include('investor.urls',namespace='investor')),
     url(r'^mentor/',include('mentor.urls',namespace='mentor')),
     url(r'^login/',include('login.urls',namespace='login')),
+    url(r'^administrator/',include('administrator.urls',namespace='administrator')),
     url(r'^register/',views.register, name='register'),
 ]
 

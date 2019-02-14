@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'mentor',
     'investor',
     'login',
+    'administrator'
 ]
 
 MIDDLEWARE = [
