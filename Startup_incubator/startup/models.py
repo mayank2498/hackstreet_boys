@@ -15,7 +15,7 @@ class Founder(models.Model):
 class Startup(models.Model):
 	user = models.ForeignKey(Type,on_delete=models.CASCADE)
 	name  = models.CharField( max_length= 100 , null=True)
-	founder = models.OneToOneField(Founder,blank=True)
+	founder = models.OneToOneField(Founder,blank=True,null=True)
 	investors = models.ManyToManyField(Investor,blank=True)
 	mentors = models.ManyToManyField(Mentor,blank=True)
 	address = models.CharField( max_length= 100 , null=True)

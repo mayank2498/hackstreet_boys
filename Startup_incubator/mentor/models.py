@@ -3,7 +3,7 @@ from login.models import Type
 import startup
 
 class Mentor(models.Model):
-	user = models.ForeignKey(Type,on_delete=models.CASCADE)
+	user = models.ForeignKey(Type,on_delete=models.CASCADE,null=True)
 	name = models.CharField( max_length= 100 , null=True)
 	email = models.CharField( max_length= 100 , null=True)
 	phone_number = models.CharField( max_length= 100 , null=True)

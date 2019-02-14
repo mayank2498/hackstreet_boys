@@ -8,8 +8,7 @@ def index(request):
 	return render(request,"startup/register.html")
 	return HttpResponse('hello')
 
-<<<<<<< HEAD
-=======
+
 def get_recommendations(request):
 	startup = "trucks vehicle"
 	investors = Investor.objects.all()
@@ -36,4 +35,3 @@ def train(request):
 	train_model()
 
 	return HttpResponse('trained successfully !')
->>>>>>> 867885ea7fff9d761c8b114e14bb3724aeeb89db
