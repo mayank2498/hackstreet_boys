@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Incubation,Fund
+from .models import Incubation,Fund,Updates,Documents
 from django.shortcuts import render
 from startup.models import Startup,Founder
 from login.models import Type
@@ -61,8 +61,8 @@ def add_mentor(request):
 @csrf_exempt		
 def add_investor(request):
 
-	if not request.user.is_authenticated() :
-		return redirect('/login')
+	# if not request.user.is_authenticated() :
+	# 	return redirect('/login')
 
 	if request.method =='GET':
 		return render(request,'administrator/addinvestor.html')
@@ -111,43 +111,44 @@ def show_mentors(request):
 		return redirect('/login')
 	mentors = Mentor.objects.all()
 	return render(request, 'administrator/showmentors.html',{'mentors':mentors})
-
+@csrf_exempt
 def upload_documents(request):
-	if not request.user.is_authenticated() :
-		return redirect('/login')
-	doc = request.FILES.get('file',False)
-	typ = Type.objects.get(user_id=request.user.id)
-	document = Document()
-	document.doc = doc
-	if typ == "startup":
-		document.typ = "startup"
-		
+	# if not request.user.is_authenticated() :
+	# 	return redirect('/login')
+	if request.method =="GET":
+		return render(request, 'administrator/uploaddocs.html',{'errormessage':''})
 	else:
-		document.typ = "admin"
-	document.save()
-	return HttpResponse("document saved")
+		doc = request.FILES.get('file',False)
+		typ = Type.objects.get(user_id=request.user.id)
+		document = Documents()
+		document.doc = doc
+		if typ == "startup":
+			document.typ = "startup"
+			
+		else:
+			document.typ = "admin"
+		document.save()
+		return render(request,'administrator/uploaddocs.html',{'errormessage':'success'})
 
-
+@csrf_exempt
 #posts updates in main page
 def update_info(request):
-<<<<<<< HEAD
-	if request.method == 'POST':
-		info = request.POST['info']
+	if request.method == "GET":
+		return render(request, 'administrator/addupdates.html',{'errormessage':''})
+	# if not request.user.is_authenticated() :
+	# 	return redirect('/login')
+	else:
+		info = request.POST['about']
 		schedule = request.POST['schedule']
+		title = request.POST['title']
 		updates = Updates()
 		updates.info = info
 		updates.schedule =schedule
+		updates.title = title
 		updates.save()
-		return HttpResponse("updates added")
-=======
-	if not request.user.is_authenticated() :
-		return redirect('/login')
-	info = request.POST['info']
-	updates = Updates()
-	updates.info = info
-	updates.save()
-	return HttpResponse("updates added")
->>>>>>> a84c3815688f110da5e1762d15f9415f5fee07e8
+		print(updates.date)
+		print(updates.schedule)
+		return render(request,'administrator/addupdates.html',{'errormessage':'success'})
 
 def show_incubation(request):
 	if not request.user.is_authenticated() :

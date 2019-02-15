@@ -8,18 +8,18 @@ from mentor.models import Mentor
 
 def dashboard(request):
 	if request.user.is_authenticated() :
-<<<<<<< HEAD
+
 		try:
 			startup = Startup.objects.get(user__user_id=request.user.id)
 		except:
 			return HttpResponse("User does not have a startup")
-=======
+
 		print('authenticated')
 		try:
 			startup = Startup.objects.get(user__user_id=request.user.id)
 		except:
 			return HttpResponse('No startups of this user')
->>>>>>> a84c3815688f110da5e1762d15f9415f5fee07e8
+
 		return render(request,"startup/dashboard.html",{'startup':startup})
 	else:
 		return redirect('/login')
