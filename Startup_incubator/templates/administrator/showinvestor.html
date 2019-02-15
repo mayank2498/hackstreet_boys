@@ -3,7 +3,7 @@
  <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Mentors</title>
+    <title>Investors</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
@@ -19,24 +19,24 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
               <i class="fa fa-align-right"></i>
             </button>
-            <a class="navbar-brand" href="#">My<span class="main-color">Mentors</span></a>
+            <a class="navbar-brand" href="#">My<span class="main-color">Investors</span></a>
           </div>
           {% include "administrator/header.html" %}
         </div>
-      </nav>  
+      </nav>	
       <div class="container-fluid">
           <div class="row">
             <div class="col-md-12" style="color:white;">
-      <br>
-             <h3>Mentors</h3>
-             <section class="admins">
+			<br>
+             <h3>Investors</h3>
+			       <section class="admins">
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-6">
               <div class="box">
                 
-                {% for m in mentors_left %} 
-                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
+                {% for m in investors_left %} 
+                    <a href="{% url 'startup:investor_popup' m.id%}" ">
                       <div class="admin">
                         <div class="img">
                           <img class="img-responsive" style="height:85px;width:85px;"  src="{{m.image.url}}" alt="admin">
@@ -48,13 +48,43 @@
                       </div>
                     </a>
                 {% endfor %}
-    
+                    <!--
+                      <div class="admin">
+                        <div class="img">
+                          <img class="img-responsive" src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance" alt="admin">
+                        </div>
+                        <div class="info">
+                          <h3>Joge Lucky</h3>
+                          <p>Lorem ipsum dolor sit amet.</p>
+                        </div>
+                      </div>
+                    
+                      <div class="admin">
+                        <div class="img">
+                          <img class="img-responsive" src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907137/small/1501685404/enhance" alt="admin">
+                        </div>
+                        <div class="info">
+                          <h3>Joge Lucky</h3>
+                          <p>Lorem ipsum dolor sit amet.</p>
+                        </div>
+                      </div>
+
+                      <div class="admin">
+                        <div class="img">
+                          <img class="img-responsive" src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907019/small/1501685403/enhance" alt="admin">
+                        </div>
+                        <div class="info">
+                          <h3>Joge Lucky</h3>
+                          <p>Lorem ipsum dolor sit amet.</p>
+                        </div>
+                      </div>
+                   -->
               </div>
             </div>
             <div class="col-md-6">
               <div class="box">
-                {% for m in mentors_right %} 
-                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
+                {% for m in investors_right %} 
+                    <a href="{% url 'startup:investor_popup' m.id%}" ">
                       <div class="admin">
                         <div class="img">
                           <img class="img-responsive" style="height:85px;width:85px;"  src="{{m.image.url}}" alt="admin">
@@ -70,12 +100,12 @@
             </div>
           </div>
           </section>
-       </div>
+			 </div>
 
           </div>
-        </div>    
+        </div>	  
       </section>
-          
+	        
   
 
       <script src='http://code.jquery.com/jquery-latest.js'></script>

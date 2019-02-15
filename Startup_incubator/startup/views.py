@@ -83,6 +83,11 @@ def mentors(request):
 	else:
 		return render(request,'front/login.html')
 
+
+def startup_profile_popup(request,pk):
+	startup = Startup.objects.get(id=pk)
+	return render(request,'startup/startup_profile_popup.html',{'startup':startup})
+
 def mentor_profile_popup(request,pk):
 	mentor = Mentor.objects.get(id=pk)
 	return render(request,'startup/mentor_profile_popup.html',{'mentor':mentor})

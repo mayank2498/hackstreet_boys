@@ -4,7 +4,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>{{ investor.name }}</title>
+  <title>{{ startup.name }}</title>
   
   
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
@@ -31,14 +31,14 @@ function goBack() {
 </script>
     <!-- here’s the avatar -->
     <a target="_blank" href="#">
-      <img class="img-responsive" style="height:85px;width:85px;"  src="{{investor.image.url}}" alt="admin">
+      <img class="hoverZoomLink" class="img-responsive" style="height:85px;width:85px;"  src="{{startup.image.url}}" alt="admin">
     </a>
 
     <!-- the username -->
-    <h1>{{ investor.name}} </h1>
+    <h1>{{ startup.name}} </h1>
 
     <!-- and role or location -->
-    <h4>  {{ investor.email }}  </h4>
+    <h4>  {{ startup.email }}  </h4>
 
   </header>
 
@@ -46,7 +46,7 @@ function goBack() {
   <div class="profile-bio">
 
     <p>
-      {{ investor.description }}
+      {{ mentor.description }}
     </p>
 
   </div>

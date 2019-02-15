@@ -4,8 +4,9 @@ from startup.models import Startup
 
 class Documents(models.Model):
 	doc = models.FileField(upload_to='documents/')
-	typ = models.CharField( max_length= 100 , null=True)
+	startup = models.ForeignKey(Startup,null=True,on_delete=models.CASCADE) 
 	date = models.DateField(default=datetime.date.today)
+	typ = models.CharField(max_length= 1000 , null=True, default='startup')
 
 class Updates(models.Model):
 	info = models.CharField( max_length= 1000 , null=True)
@@ -23,7 +24,7 @@ class Fund(models.Model):
 	date = models.DateField(default=datetime.date.today)
 
 class Incubation(models.Model):
-	#startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
+	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
 	date = models.DateField(default=datetime.date.today)
 	accept = models.BooleanField(default=False)
 	ppt = models.FileField(upload_to='documents/')
