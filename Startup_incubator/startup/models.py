@@ -3,6 +3,7 @@ from investor.models import Investor
 from mentor.models import Mentor
 from django.contrib.auth.models import User
 from login.models import Type
+from datetime import datetime
 
 class Founder(models.Model):
 	name = models.CharField( max_length= 100 , null=True)
@@ -50,7 +51,7 @@ class Incubation_request(models.Model):
 	ppt = models.FileField(null=True,upload_to='Incubation_ppts/')
 	pending = models.BooleanField(default=True)
 	accepted = models.BooleanField(default=False)
-
+	date_applied = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 TASK_STATUS = ( ('Pending','Pending'),('In Progress','In Progress') )
 class Tasks(models.Model):

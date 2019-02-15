@@ -98,12 +98,12 @@ def login_user(request):
 			if user.is_active:
 				login(request,user)
 				user1 = Type.objects.get(user_id=user.id)
-				if user1.type == "startup":
+				if user1.typ == "startup":
 					startup = Startup.objects.get(user_id=user1.id)
 					return redirect("/startup/")
-				if user1.type == "investor":
+				if user1.typ == "investor":
 					startup = Investor.objects.get(user_id=user1.id)
-				if user1.type == "mentor":
+				if user1.typ == "mentor":
 					startup = Mentor.objects.get(user_id=user1.id)
 				
 			else:

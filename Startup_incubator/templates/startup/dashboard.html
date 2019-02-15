@@ -227,8 +227,15 @@
       <script src="{% static "startup/js/main.js" %} "></script>
       </body>
     </html>
-  
-  
+    
+    <script type="text/javascript">
+     
+      var x = '{{msg}}' ;
+      if (x.length > 2){
+        swal('{{ msg }}');
+      } 
+      
+      </script>
 
     <script  src="{% static "startup/js/indexuser.js" %} "></script>
 

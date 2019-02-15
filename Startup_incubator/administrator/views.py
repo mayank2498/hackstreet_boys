@@ -130,7 +130,9 @@ def upload_documents(request):
 
 #posts updates in main page
 def update_info(request):
-<<<<<<< HEAD
+	if not request.user.is_authenticated() :
+		return redirect('/login')
+		
 	if request.method == 'POST':
 		info = request.POST['info']
 		schedule = request.POST['schedule']
@@ -139,15 +141,13 @@ def update_info(request):
 		updates.schedule =schedule
 		updates.save()
 		return HttpResponse("updates added")
-=======
-	if not request.user.is_authenticated() :
-		return redirect('/login')
+
+	
 	info = request.POST['info']
 	updates = Updates()
 	updates.info = info
 	updates.save()
 	return HttpResponse("updates added")
->>>>>>> a84c3815688f110da5e1762d15f9415f5fee07e8
 
 def show_incubation(request):
 	if not request.user.is_authenticated() :

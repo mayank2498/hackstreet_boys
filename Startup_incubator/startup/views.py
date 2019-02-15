@@ -5,22 +5,25 @@ from recommendations.train import train_model
 from recommendations.test import predict
 from .models import Startup, Incubation_request
 from mentor.models import Mentor
+from django.views.decorators.csrf import csrf_exempt
+from datetime import datetime
 
 def dashboard(request):
 	if request.user.is_authenticated() :
-<<<<<<< HEAD
+
 		try:
 			startup = Startup.objects.get(user__user_id=request.user.id)
 		except:
 			return HttpResponse("User does not have a startup")
-=======
+
 		print('authenticated')
-		try:
-			startup = Startup.objects.get(user__user_id=request.user.id)
-		except:
-			return HttpResponse('No startups of this user')
->>>>>>> a84c3815688f110da5e1762d15f9415f5fee07e8
-		return render(request,"startup/dashboard.html",{'startup':startup})
+		msg = ""
+		if request.session.get('message', False):
+			msg = request.session.get('message')
+			del request.session['message']
+			print(msg)
+
+		return render(request,"startup/dashboard.html",{'startup':startup,'msg':msg})
 	else:
 		return redirect('/login')
 	
@@ -104,13 +107,41 @@ def investor_profile_popup(request,pk):
 	investor = Investor.objects.get(id=pk)
 	return render(request,'startup/investor_profile_popup.html',{'investor':investor})
 
-
+@csrf_exempt
 def apply_incubation(request):
 	if request.user.is_authenticated() :
 		print('authenticated')
-	try:
-		startup = Startup.objects.get(user__user_id=request.user.id)
-	except:
-		return HttpResponse('No startups of this user')
-	incubation_request = Incubation_request()
-	
+
+	if request.method == 'GET':
+		try:
+			startup = Startup.objects.get(user__user_id=request.user.id)
+		except:
+			return HttpResponse("User does not have a startup")
+
+		return render(request,'startup/apply_incubation.html',{'startup':startup})
+	else:
+		try:
+			startup = Startup.objects.get(user__user_id=request.user.id)
+		except:
+			return HttpResponse('No startups of this user')
+
+		requests = Incubation_request.objects.filter(startup__user__user_id=request.user.id)
+		fg = 0
+		for req in requests:
+			if req.pending == True:
+				fg = 1
+				break
+		if fg == 1:
+			request.session['message'] = "You have already applied for Incubation. Wait for reply"
+			return redirect('/startup')
+
+		incubation_request = Incubation_request()
+		incubation_request.startup_id = startup.id
+		incubation_request.ppt = request.FILES.get('ppt',False)
+		incubation_request.date_applied = datetime.now()
+		incubation_request.save()
+		if incubation_request.ppt is False :
+			request.session['message'] = "Could not save presentation !" 
+		else:
+			request.session['message'] = "Applied for Incubation successfully !"
+		return redirect('/startup')
