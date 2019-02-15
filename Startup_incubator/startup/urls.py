@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^startup_popup/(?P<pk>[0-9]+)$',views.startup_profile_popup,name='startup_popup'),
     url(r'^apply_incubation/$',views.apply_incubation),
     url(r'^apply_fund/$',views.apply_fund),
-
+    url(r'^apply_fund/$',views.apply_fund),
+    url(r'^send_connection_request/(?P<pk>[0-9]+)$',views.send_connection_request,name='send_connection_request'),
 ]

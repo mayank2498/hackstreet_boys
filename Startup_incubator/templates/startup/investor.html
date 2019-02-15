@@ -39,18 +39,31 @@
                   <a href="{% url 'startup:investor_popup' m.id%}" ">
                     <div class="admin">
                       <div class="img">
-                        <img class="img-responsive" style="height:85px;width:85px;margin-top: 25%;"  src="{{m.image.url}}" alt="admin">
+                        <img class="img-responsive" style="height:85px;width:85px;margin-top: 25%;"  src="{{m.image}}" alt="admin">
                       </div>
                       <div class="info">
                         <h3 style="color:white;">{{ m.name }}</h3>
 
                         <p>{{ m.description|slice:":80" }}</p>
-                        <button type="button" class="btn btn-primary"><a style="color:white;" href="#">Connect</a></button>
+                        {% if m.pending == 0 %}
+                          <button type="button" class="btn btn-primary">
+                              <a style="color:white;" href="{% url 'startup:send_connection_request' m.investor_user_id%}">
+                               Connect
+                             </a>
+                           </button>
+                        {% endif %}
+                        {% if m.pending == 1 %}
+                          <button type="button" class="btn btn-primary">
+                              Pending
+                           </button>
+                        {% endif %}
                       </div>
 
 
                     </div>
                   </a>
+
+                  
 
                   {% endfor %}
 
@@ -62,16 +75,27 @@
                   <a href="{% url 'startup:investor_popup' m.id%}" ">
                     <div class="admin">
                       <div class="img">
-                        <img class="img-responsive" style="height:85px;width:85px;margin-top: 25%;"  src="{{m.image.url}}" alt="admin">
+                        <img class="img-responsive" style="height:85px;width:85px;margin-top: 25%;"  src="{{m.image}}" alt="admin">
                       </div>
                       <div class="info">
                         <h3 style="color:white;">{{ m.name }}</h3>
 
                         <p>{{ m.description|slice:":80" }}</p>
-                        <button type="button" class="btn btn-primary"><a style="color:white;" href="#">Connect</a></button>
+                        {% if m.pending == 0 %}
+                          <button type="button" class="btn btn-primary">
+                              <a style="color:white;" href="{% url 'startup:send_connection_request' m.investor_user_id%}">
+                               Connect
+                             </a>
+                           </button>
+                        {% endif %}
+                        {% if m.pending == 1 %}
+                          <button type="button" class="btn btn-primary">
+                              Pending
+                           </button>
+                        {% endif %}
                       </div>
 
-                      
+
                     </div>
                   </a>
                   {% endfor %}

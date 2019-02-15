@@ -25,6 +25,3 @@ class Connections(models.Model):
 	date = models.DateField(default=datetime.date.today)
 	response = models.BooleanField(default=False)
 	accept = models.BooleanField(default=False)
-
-
-

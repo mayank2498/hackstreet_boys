@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from investor.models import Investor
+from investor.models import Investor, Connections
 from recommendations.train import train_model
 from recommendations.test import predict
 from .models import Startup
@@ -8,7 +8,7 @@ from administrator.models import Fund,Incubation
 from mentor.models import Mentor
 from django.views.decorators.csrf import csrf_exempt
 import datetime
-
+from login.models import Type
 def dashboard(request):
 	if request.user.is_authenticated() :
 
@@ -72,11 +72,33 @@ def about_us(request):
 def mentors(request):
 	if request.user.is_authenticated() :
 		mentors = Mentor.objects.all()
-		size = len(mentors)
+		print(mentors)
+		mentor_data = []
+		for m in mentors:
+			temp = {}
+			temp["mentor_user_id"] = m.user.user.id
+			temp["id"] = m.id
+			temp["name"] = m.name
+			temp["image"] = m.image.url
+			temp["description"] = m.description
+
+			obj = Connections.objects.filter(sentfrom_id=request.user.id,sentto_id=m.user.user.id)
+			if( len(obj) >= 1 ):
+				obj = obj[0]
+				if obj.response == False:
+					temp["pending"] = 1
+			else:
+				temp["pending"] = 0
+			mentor_data.append(temp)
+
+
+		print(mentor_data)
+
+		size = len(mentor_data)
 		left = int(size/2)
 
-		mentors_right = mentors[:left]
-		mentors_left = mentors[left:]
+		mentors_right = mentor_data[:left]
+		mentors_left = mentor_data[left:]
 		startup = Startup.objects.get(user__user_id=request.user.id)
 		return render(request,"startup/mentor.html",{'mentors_left':mentors_left,
 													'mentors_right':mentors_right,
@@ -95,12 +117,32 @@ def mentor_profile_popup(request,pk):
 
 def investors(request):
 	if request.user.is_authenticated() :
+
 		investors = Investor.objects.all()
-		size = len(investors)
+		investor_data = []
+		for m in investors:
+			temp = {}
+			temp["investor_user_id"] = m.user.user.id
+			temp["id"] = m.id
+			temp["name"] = m.name
+			temp["image"] = m.image.url
+			temp["description"] = m.description
+
+			obj = Connections.objects.filter(sentfrom_id=request.user.id,sentto_id=m.user.user.id)
+			if( len(obj) >= 1 ):
+				obj = obj[0]
+				if obj.response == False:
+					temp["pending"] = 1
+			else:
+				temp["pending"] = 0
+			investor_data.append(temp)
+
+		
+		size = len(investor_data)
 		left = int(size/2)
 
-		investors_right = investors[:left]
-		investors_left = investors[left:]
+		investors_right = investor_data[:left]
+		investors_left = investor_data[left:]
 		startup = Startup.objects.get(user__user_id=request.user.id)
 		return render(request,"startup/investor.html",{'investors_left':investors_left,
 													'investors_right':investors_right,
@@ -190,3 +232,14 @@ def apply_fund(request):
 	
 
 
+def send_connection_request(request,pk):
+	# from will be the logged in user
+	fromm = Type.objects.get(user_id=request.user.id)
+	# to will be sent from connect button
+	to = Type.objects.get(user_id=pk)
+	connections = Connections()
+	connections.sentfrom_id = fromm.user.id
+	connections.sentto_id = pk
+	connections.save()
+	request.session['message'] = "Sent Connection request "
+	return redirect('/startup/')
