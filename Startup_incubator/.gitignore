@@ -1,2 +1,17 @@
 myenv
 venv
+startup/_pycache
+startup/migrations/_pycache
+
+investor/_pycache
+investor/migrations/_pycache
+
+mentor/_pycache
+mentor/migrations/_pycache
+
+login/_pycache
+login/migrations/_pycache
+
+
+administrator/_pycache
+administrator/migrations/_pycache
