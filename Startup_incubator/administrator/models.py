@@ -9,7 +9,10 @@ class Documents(models.Model):
 
 class Updates(models.Model):
 	info = models.CharField( max_length= 1000 , null=True)
+	schedule = models.CharField( max_length= 1000 , null=True)
+	title = models.CharField(max_length=1000,null=True)
 	date = models.DateField(default=datetime.date.today)
+
 
 class Fund(models.Model):
 	typ = models.CharField(max_length=100,null=True)
