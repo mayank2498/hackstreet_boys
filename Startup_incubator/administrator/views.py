@@ -14,7 +14,21 @@ from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
+import datetime
 #from administrator.models import Documents,Updates
+
+
+# just a helper function. it can be reused for getting admin names
+def get_admin(id):
+ 	admin = User.objects.get(id=id)
+ 	return admin
+
+
+def dashboard(request):
+	return render(request,'administrator/dashboard.html',{'admin':get_admin(request.user.id)})
+
+
+
 
 @csrf_exempt
 #for admin to add mentor
@@ -24,7 +38,7 @@ def add_mentor(request):
 
 
 	if request.method =='GET':
-		return render(request,'administrator/addmentor.html')
+		return render(request,'administrator/addmentor.html',{'admin':get_admin(request.user.id)})
 	else:
 		name = request.POST.get('name')
 		print(name)
@@ -61,11 +75,8 @@ def add_mentor(request):
 @csrf_exempt		
 def add_investor(request):
 
-	# if not request.user.is_authenticated() :
-	# 	return redirect('/login')
-
 	if request.method =='GET':
-		return render(request,'administrator/addinvestor.html')
+		return render(request,'administrator/addinvestor.html',{'admin':get_admin(request.user.id)})
 	else:
 		name = request.POST.get('name')
 		email = request.POST.get('email')
@@ -99,36 +110,78 @@ def add_investor(request):
 def show_startups(request):
 	if not request.user.is_authenticated() :
 		return redirect('/login')
+	
 	startups = Startup.objects.all()
-	return render(request, 'administrator/showstartups.html',{'startups':startups})
+	size = len(startups)
+	left = int(size/2)
+
+	startups_right = startups[:left]
+	startups_left = startups[left:]
+
+	return render(request, 'administrator/showstartups.html',{'startups_left':startups_left,
+															  'startups_right':startups_right,
+															  	'admin':get_admin(request.user.id)})
+
+
 def show_investors(request):
 	if not request.user.is_authenticated() :
 		return redirect('/login')
+
+
 	investors = Investor.objects.all()
-	return render(request, 'administrator/showinvestors.html',{'investors':investors})
+	size = len(investors)
+	left = int(size/2)
+
+	investors_right = investors[:left]
+	investors_left = investors[left:]
+	return render(request, 'administrator/showinvestor.html',{'investors_left':investors_left,
+															  'investors_right':investors_right,
+												              'admin':get_admin(request.user.id)})
+
+
 def show_mentors(request):
 	if not request.user.is_authenticated() :
 		return redirect('/login')
 	mentors = Mentor.objects.all()
-	return render(request, 'administrator/showmentors.html',{'mentors':mentors})
+	size = len(mentors)
+	left = int(size/2)
+
+	mentors_right = mentors[:left]
+	mentors_left = mentors[left:]
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	return render(request, 'administrator/showmentors.html',{'mentors_left':mentors_left,
+															  'mentors_right':mentors_right,
+															  'admin':get_admin(request.user.id)})
+
+
+
 @csrf_exempt
 def upload_documents(request):
-	# if not request.user.is_authenticated() :
-	# 	return redirect('/login')
+	startups = Startup.objects.all()
+
+	documents = Documents.objects.all()
+	
 	if request.method =="GET":
-		return render(request, 'administrator/uploaddocs.html',{'errormessage':''})
+		docs = []
+		for s in startups:
+			docs_of_s = Documents.objects.filter(startup_id=s.id,typ='admin')
+			for d in docs_of_s:
+				docs.append(d.doc.url)
+		print(docs)
+
+		return render(request, 'administrator/uploaddocs.html',{'errormessage':'',
+																'admin':get_admin(request.user.id),
+																'documents':docs})
 	else:
 		doc = request.FILES.get('file',False)
-		typ = Type.objects.get(user_id=request.user.id)
-		document = Documents()
-		document.doc = doc
-		if typ == "startup":
-			document.typ = "startup"
+		for startup in startups:
+			document = Documents()
+			document.doc = doc
+			document.startup_id = startup.id
+			document.typ = 'admin'
+			document.save()
 			
-		else:
-			document.typ = "admin"
-		document.save()
-		return render(request,'administrator/uploaddocs.html',{'errormessage':'success'})
+		return redirect('/administrator/upload_documents')
 
 @csrf_exempt
 #posts updates in main page
@@ -137,7 +190,7 @@ def update_info(request):
 		return redirect('/login')
 
 	if request.method == "GET":
-		return render(request, 'administrator/addupdates.html',{'errormessage':''})
+		return render(request, 'administrator/addupdates.html',{'errormessage':'','admin':get_admin(request.user.id)})
 	
 	else:
 		info = request.POST['about']
@@ -150,32 +203,49 @@ def update_info(request):
 		updates.save()
 		print(updates.date)
 		print(updates.schedule)
-		return render(request,'administrator/addupdates.html',{'errormessage':'success'})
+		return render(request,'administrator/addupdates.html',{'errormessage':'success','admin':get_admin(request.user.id)})
 
 
 def show_incubation(request):
 	if not request.user.is_authenticated() :
 		return redirect('/login')
+	msg = ""
+	if request.session.get('message', False):
+		msg = request.session.get('message')
+		del request.session['message']
 	incubation = Incubation.objects.filter(clicked=False)
-	return render(request, 'administrator/showincubation.html',{'incubation':incubation})
+	print(len(incubation))
+	return render(request, 'administrator/incubation_evaluation.html',{'msg':msg,
+																		'incubation':incubation,
+																		'admin':get_admin(request.user.id)})
+
+
 
 def show_fund(request):
 	if not request.user.is_authenticated() :
 		return redirect('/login')
+	msg = ""
+	if request.session.get('message', False):
+		msg = request.session.get('message')
+		del request.session['message']
+		
 	fund = Fund.objects.filter(clicked=False)
-	return render(request, 'administrator/showfund.html',{'fund':fund})
+	return render(request, 'administrator/showfund.html',{'fund':fund,'admin':get_admin(request.user.id)})
 
 def accept_incubation(request,pk):
-	#response = request.POST['response']
 	incubation = Incubation.objects.get(startup_id=pk)
 	incubation.clicked = True
 	incubation.accept = True
+	incubation.save()
+	request.session['message'] = str(incubation.startup.name) + " incubation request ACCEPTED !" 
 	return redirect("/administrator/show_incubation")
 
 def reject_incubation(request,pk):
 	#response = request.POST['response']
 	incubation = Incubation.objects.get(startup_id=pk)
 	incubation.clicked = True
+	incubation.save()
+	request.session['message'] = str(incubation.startup.name) + "'s incubation request REJECTED !"
 	return redirect("/administrator/show_incubation")
 
 

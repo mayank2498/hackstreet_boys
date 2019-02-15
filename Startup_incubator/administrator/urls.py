@@ -3,6 +3,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
+    url(r'^$', views.dashboard, name='dashboard'),
     url(r'^add_mentor$', views.add_mentor, name='add_mentor'),
     url(r'^add_investor$', views.add_investor, name='add_investor'),
 
