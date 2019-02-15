@@ -106,4 +106,4 @@ def apply_incubation(request):
 	except:
 		return HttpResponse('No startups of this user')
 	incubation_request = Incubation_request()
-	incubation_request.
+	
