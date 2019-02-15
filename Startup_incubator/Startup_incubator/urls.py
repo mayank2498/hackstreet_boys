@@ -5,6 +5,7 @@ from login import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^startup/',include('startup.urls',namespace='startup')),
@@ -14,7 +15,6 @@ urlpatterns = [
     url(r'^administrator/',include('administrator.urls',namespace='administrator')),
     url(r'^register/',views.register, name='register'),
     
-
 ]
 
 

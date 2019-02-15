@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^mentor_popup/(?P<pk>[0-9]+)$',views.mentor_profile_popup,name='mentor_popup'),
     url(r'^investor_popup/(?P<pk>[0-9]+)$',views.investor_profile_popup,name='investor_popup'),
     url(r'^apply_incubation/$',views.apply_incubation),
+    url(r'^apply_fund/$',views.apply_fund),
 
 ]
