@@ -13,7 +13,7 @@ class Updates(models.Model):
 
 class Fund(models.Model):
 	typ = models.CharField(max_length=100,null=True)
-	startup = models.ForeignKey(Startup,null=True,on_delete=models.CASCADE)
+	#startup = models.ForeignKey(Startup,null=True,on_delete=models.CASCADE)
 	ppt = models.FileField(upload_to='documents/')
 	accept = models.BooleanField(default=False)
 	clicked = models.BooleanField(default=False)
