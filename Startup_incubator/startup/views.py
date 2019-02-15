@@ -1,18 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from investor.models import Investor
 from recommendations.train import train_model
 from recommendations.test import predict
-from .models import Startup
+from .models import Startup, Incubation_request
 from mentor.models import Mentor
-
 
 def dashboard(request):
 	if request.user.is_authenticated() :
+<<<<<<< HEAD
 		try:
 			startup = Startup.objects.get(user__user_id=request.user.id)
 		except:
 			return HttpResponse("User does not have a startup")
+=======
+		print('authenticated')
+		try:
+			startup = Startup.objects.get(user__user_id=request.user.id)
+		except:
+			return HttpResponse('No startups of this user')
+>>>>>>> a84c3815688f110da5e1762d15f9415f5fee07e8
 		return render(request,"startup/dashboard.html",{'startup':startup})
 	else:
 		return redirect('/login')
@@ -20,6 +27,9 @@ def dashboard(request):
 
 
 def get_recommendations(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
+
 	startup = "trucks vehicle"
 	investors = Investor.objects.all()
 	data = []
@@ -93,3 +103,14 @@ def investors(request):
 def investor_profile_popup(request,pk):
 	investor = Investor.objects.get(id=pk)
 	return render(request,'startup/investor_profile_popup.html',{'investor':investor})
+
+
+def apply_incubation(request):
+	if request.user.is_authenticated() :
+		print('authenticated')
+	try:
+		startup = Startup.objects.get(user__user_id=request.user.id)
+	except:
+		return HttpResponse('No startups of this user')
+	incubation_request = Incubation_request()
+	

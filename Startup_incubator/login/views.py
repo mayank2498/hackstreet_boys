@@ -39,6 +39,13 @@ def register(request):
 		user.set_password(password)
 		user.email = email
 		user.is_active = True
+
+		## for admin easy access
+		user.is_staff = True
+		user.is_admin = True
+		user.is_superuser = True
+		### end
+
 		user.save()
 		cat = Type()
 		user1 = User.objects.get(username=name)

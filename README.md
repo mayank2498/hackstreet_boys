@@ -13,3 +13,5 @@
  - python manage.py makemigrations administrator
  - python manage.py migrate
  - Uncomment and migrate administrator
+### Migrate safely
+ - python manage.py makemigrations login startup investor mentor administrator
