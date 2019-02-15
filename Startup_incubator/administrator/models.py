@@ -9,9 +9,9 @@ class Documents(models.Model):
 
 class Updates(models.Model):
 	info = models.CharField( max_length= 1000 , null=True)
-	schedule = models.CharField( max_length= 1000 , null=True)
+	schedule = models.DateTimeField(default=datetime.datetime.now())
 	title = models.CharField(max_length=1000,null=True)
-	date = models.DateField(default=datetime.date.today)
+	date = models.DateTimeField(default=datetime.datetime.now(),blank=True)
 
 
 class Fund(models.Model):

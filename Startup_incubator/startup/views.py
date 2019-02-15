@@ -16,7 +16,6 @@ def dashboard(request):
 		except:
 			return HttpResponse("User does not have a startup")
 
-		print('authenticated')
 		msg = ""
 		if request.session.get('message', False):
 			msg = request.session.get('message')
