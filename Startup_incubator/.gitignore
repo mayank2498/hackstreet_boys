@@ -1,19 +1,19 @@
 myenv
 venv
-startup/_pycache
-startup/migrations/_pycache
+startup/__pycache__
+startup/migrations/__pycache__
 
-investor/_pycache
-investor/migrations/_pycache
+investor/__pycache__
+investor/migrations/__pycache__
 
-mentor/_pycache
-mentor/migrations/_pycache
+mentor/__pycache__
+mentor/migrations/__pycache__
 
 login/_pycache
-login/migrations/_pycache
+login/migrations/__pycache__
 
 
-administrator/_pycache
-administrator/migrations/_pycache
+administrator/__pycache__
+administrator/migrations/__pycache__
 
 
