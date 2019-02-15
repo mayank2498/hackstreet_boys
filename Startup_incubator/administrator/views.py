@@ -19,6 +19,10 @@ from django.core.mail import EmailMessage
 
 #for admin to add mentor
 def add_mentor(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
+
+
 	if request.method =='GET':
 		return render(request,'front/register.html')
 	else:
@@ -51,6 +55,10 @@ def add_mentor(request):
 
 		
 def add_investor(request):
+
+	if not request.user.is_authenticated() :
+		return redirect('/login')
+
 	if request.method =='GET':
 		return render(request,'front/register.html')
 	else:
@@ -84,16 +92,24 @@ def add_investor(request):
 
 #show profiles
 def show_startups(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
 	startups = Startup.objects.all()
 	return render(request, 'administrator/showstartups.html',{'startups':startups})
 def show_investors(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
 	investors = Investor.objects.all()
 	return render(request, 'administrator/showinvestors.html',{'investors':investors})
 def show_mentors(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
 	mentors = Mentor.objects.all()
 	return render(request, 'administrator/showmentors.html',{'mentors':mentors})
 
 def upload_documents(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
 	doc = request.FILES.get('file',False)
 	typ = Type.objects.get(user_id=request.user.id)
 	document = Document()
@@ -109,6 +125,8 @@ def upload_documents(request):
 
 #posts updates in main page
 def update_info(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
 	info = request.POST['info']
 	updates = Updates()
 	updates.info = info
@@ -116,10 +134,14 @@ def update_info(request):
 	return HttpResponse("updates added")
 
 def show_incubation(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
 	incubation = Incubation.objects.filter(clicked=False)
 	return render(request, 'administrator/showincubation.html',{'incubation':incubation})
 
 
 def show_fund(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
 	fund = Fund.objects.filter(clicked=False)
 	return render(request, 'administrator/showfund.html',{'fund':fund})

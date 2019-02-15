@@ -1,3 +1,5 @@
+myenv
+
 bin/
 
 .Trashes
@@ -64,7 +66,7 @@ target/
 __pycache__/
 local_settings.py
 
-.env
+.myenv
 db.sqlite3
 
 

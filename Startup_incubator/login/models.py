@@ -11,6 +11,8 @@ STATUS_CHOICES = (
 
 class Type(models.Model):
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
-	type = models.CharField(choices=STATUS_CHOICES,max_length=100,null=False,default="startup")
+	typ = models.CharField(choices=STATUS_CHOICES,max_length=100,null=False,default="startup")
+	def __str__(self):
+		return str(self.user.username + " (" + str(self.typ) + ")")
 
 
