@@ -20,5 +20,7 @@ urlpatterns = [
     url(r'^show_pending_connections$', views.show_pending_connections, name='show_pending_connections'),
     url(r'^accept_connection/(?P<pk>[0-9]+)$',views.accept_connection,name='accept_connection'),
     url(r'^reject_connection/(?P<pk>[0-9]+)$',views.reject_connection,name='reject_connection'),
+    url(r'^generate_ticket/$',views.generate_ticket,name='generate_ticket'),
+    
 
 ]

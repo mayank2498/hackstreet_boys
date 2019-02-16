@@ -1,5 +1,9 @@
 {% load static %}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link  rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "administrator/css/styleuser.css" %}">
     <aside class="side-nav" id="show-side-navigation1">
     <i class="fa fa-bars close-aside hidden-sm hidden-md hidden-lg" data-close="show-side-navigation1"></i>
     <div class="heading">
@@ -19,6 +23,8 @@
      <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/administrator/show_mentors"> Show Mentors</a></li>
      <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/administrator/show_investors">Show Investors</a>
     </li>
+    <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/administrator/show_tickets">Show Investors</a>
+    </li>
     <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a>Applications</a>
       <ul class="side-nav-dropdown">
         <li><a href="">Application for Funding</a></li>
@@ -29,3 +35,10 @@
   <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/administrator/upload_documents">Add Documents</a></li>
   </ul>
 </aside>
+<script src='http://code.jquery.com/jquery-latest.js'></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
+      <script src="{% static "startup/js/mainuser.js" %}"></script>
+  
+
+    <script  src="{% static "startup/js/indexuser.js" %}"></script>

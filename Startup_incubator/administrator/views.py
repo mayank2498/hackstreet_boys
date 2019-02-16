@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Incubation,Fund,Updates,Documents
 from django.shortcuts import render
-from startup.models import Startup,Founder
+from startup.models import Startup,Founder,Tickets
 from login.models import Type
 from investor.models import Investor
 from mentor.models import Mentor
@@ -263,3 +263,24 @@ def reject_fund(request,pk):
 	fund.clicked = True
 	fund.save()
 	return redirect("/administrator/show_fund")
+
+def show_tickets(request):
+
+	tickets = Tickets.objects.filter(status=False)
+	left = int(len(tickets)/2)
+	left_tickets = tickets[left:]
+	right_tickets = tickets[:left]
+	return render(request,'administrator/showtickets.html',{'admin':get_admin(request.user.id),'left_tickets':left_tickets,'right_tickets':right_tickets,'msg':''})
+
+
+def show_ticket(request,pk):
+	ticket = Tickets.objects.get(startup_id=pk)
+	return render(request,'administrator/ticketdetails.html',{'admin':get_admin(request.user.id),'ticket':ticket})
+
+
+def solve_ticket(request,pk):
+	ticket = Tickets.objects.get(id=pk)
+	ticket.solved_date = datetime.datetime.now()
+	ticket.status = True
+	ticket.save()
+	return render(request,'administrator/showtickets.html',{'admin':get_admin(request.user.id),'ticket':ticket,'msg':'done'})
