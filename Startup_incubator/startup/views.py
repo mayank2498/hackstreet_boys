@@ -213,7 +213,7 @@ def apply_fund(request):
 		except:
 			return HttpResponse('No startups of this user')
 
-		requests = Incubation.objects.filter(startup__user__user_id=request.user.id)
+		requests = Fund.objects.filter(startup__user__user_id=request.user.id)
 		fg = 0
 		for req in requests:
 			if req.clicked == False:
@@ -247,3 +247,98 @@ def send_connection_request(request,pk):
 	connections.save()
 	request.session['message'] = "Sent Connection request "
 	return redirect('/startup/')
+
+
+def show_connections(request):
+	connections1 = Connections.objects.filter(sentfrom_id=request.user.id,accept=True)
+	print(len(connections1))
+	connections2 = Connections.objects.filter(sentto_id=request.user.id,accept=True)
+	print(len(connections1))
+	startups = []
+	for connection in connections1:
+		sentto = connection.sentto
+		typ = Type.objects.get(user_id=sentto.id)
+		if typ.typ == "investor":
+			print("got1")
+			name = Investor.objects.get(user_id=typ.id)
+			print(name.description)
+			startups.append(name)
+	for connection in connections2:
+		sentfrom = connection.sentfrom
+		typ = Type.objects.get(user_id=sentfrom.id)
+		if typ.typ == "investor":
+			name = Investor.objects.get(user_id=typ.id)
+			print("got1")
+			startups.append(name)
+	print(startups)
+	x = []
+	for s in startups:
+		obj = {}
+		obj["name"] = s.name
+		obj["id"] = s.id
+		obj["image"] = s.image.url
+		print(obj["image"])
+		obj["description"] = s.description
+		x.append(obj)
+	left = int(len(x)/2)
+	print(left)
+	startups_left = x[:left]
+	startups_right = x[left:]
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	return render(request, 'startup/myconnections.html',{'startup':startup,'startups_left':startups_left,'startups_right':startups_right})
+
+
+def show_pending_connections(request):
+	connections2 = Connections.objects.filter(sentto_id=request.user.id,response=False)
+	
+	startups = []
+	for connection in connections2:
+		sentfrom = connection.sentfrom
+		typ = Type.objects.get(user_id=sentfrom.id)
+		if typ.typ == "investor":
+			name = Investor.objects.get(user_id=typ.id)
+			print("got1")
+			startups.append(name)
+	print(startups)
+	x = []
+	for s in startups:
+		obj = {}
+		obj["name"] = s.name
+		obj["id"] = s.id
+		obj["image"] = s.image.url
+		print(obj["image"])
+		obj["description"] = s.description
+		x.append(obj)
+	left = int(len(x)/2)
+	print(left)
+	startups_left = x[:left]
+	startups_right = x[left:]
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	return render(request, 'startup/mypendingconnections.html',{'startup':startup,'startups_left':startups_left,'startups_right':startups_right})
+
+def accept_connection(request,pk):
+	print("das")
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	try:
+		investor = Investor.objects.get(id=pk)
+		num = investor.user.user.id
+		connection = Connections.objects.get(sentto_id=request.user.id,sentfrom_id=num) 
+	except:
+		return HttpResponse("error")
+	connection.response = True
+	connection.accept = True
+	connection.save()
+	return redirect("/startup/show_pending_connections")
+
+def reject_connection(request,pk):
+	startup = Startup.objects.get(user__user_id=request.user.id)
+
+	print("\n",pk)
+	investor = Investor.objects.get(id=pk)
+	num = investor.user.user.id
+	print(num)
+	connection = Connections.objects.get(sentto_id=request.user.id,sentfrom_id=num) 
+	connection.response = True
+	connection.accept = False
+	connection.save()
+	return redirect("/startup/show_pending_connections")

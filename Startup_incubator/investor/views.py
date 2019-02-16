@@ -18,8 +18,8 @@ def show_startups(request):
 	startups = Startup.objects.all()
 	size = len(startups)
 	left = int(size/2)
-	startups_right = startups[:left]
-	startups_left = startups[left:]
+	startups_left = startups[:left]
+	startups_right = startups[left:]
 	return render(request, 'investor/startups.html',{'investor':investor,'startups_left':startups_left,'startups_right':startups_right})
 
 @csrf_exempt
