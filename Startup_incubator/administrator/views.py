@@ -274,7 +274,6 @@ def reject_fund(request,pk):
 	fund.save()
 	return redirect("/administrator/show_fund")
 
-<<<<<<< HEAD
 def show_tickets(request):
 
 	tickets = Tickets.objects.filter(status=False)
@@ -295,7 +294,7 @@ def solve_ticket(request,pk):
 	ticket.status = True
 	ticket.save()
 	return render(request,'administrator/showtickets.html',{'admin':get_admin(request.user.id),'ticket':ticket,'msg':'done'})
-=======
+
 
 def assign_mentor(request):
 
@@ -339,4 +338,4 @@ def mentors(request):
 													'startup':startup})
 	else:
 		return render(request,'front/login.html')
->>>>>>> 90206ca54a893dbe20fc395cff3fa502ca5a2728
+

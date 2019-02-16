@@ -21,6 +21,9 @@ urlpatterns = [
     url(r'^accept_connection/(?P<pk>[0-9]+)$',views.accept_connection,name='accept_connection'),
     url(r'^reject_connection/(?P<pk>[0-9]+)$',views.reject_connection,name='reject_connection'),
     url(r'^generate_ticket/$',views.generate_ticket,name='generate_ticket'),
+    url(r'^select_booking/$',views.select_booking,name='select_booking'),   
+    url(r'^show_bookings/$',views.show_bookings,name='show_bookings'),
+    
     
 
 ]
