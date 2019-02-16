@@ -18,6 +18,7 @@ urlpatterns = [
     url(r'^accept_fund/(?P<pk>[0-9]+)$',views.accept_fund,name='accept_fund'),
     url(r'^reject_fund/(?P<pk>[0-9]+)$',views.reject_fund,name='reject_fund'),
     url(r'^accept_incubation/(?P<pk>[0-9]+)$',views.accept_incubation,name='accept_incubation'),
-    url(r'^reject_incubation/(?P<pk>[0-9]+)$',views.reject_incubation,name='reject_incubation')
+    url(r'^reject_incubation/(?P<pk>[0-9]+)$',views.reject_incubation,name='reject_incubation'),
 
+    url(r'^assign_mentor$', views.assign_mentor, name='assign_mentor'),
 ]

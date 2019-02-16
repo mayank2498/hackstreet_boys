@@ -57,6 +57,11 @@
                               Pending
                            </button>
                         {% endif %}
+                        {% if m.pending == 2 %}
+                          <button type="button" class="btn btn-primary">
+                              Request Accepted
+                           </button>
+                        {% endif %}
                       </div>
 
 
@@ -93,11 +98,17 @@
                               Pending
                            </button>
                         {% endif %}
+                        {% if m.pending == 2 %}
+                          <button type="button" class="btn btn-primary">
+                              Request Accepted
+                           </button>
+                        {% endif %}
                       </div>
 
 
                     </div>
                   </a>
+
                   {% endfor %}
                 </div>
               </div>

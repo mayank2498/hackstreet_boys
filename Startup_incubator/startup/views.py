@@ -131,13 +131,17 @@ def investors(request):
 			obj = Connections.objects.filter(sentfrom_id=request.user.id,sentto_id=m.user.user.id)
 			if( len(obj) >= 1 ):
 				obj = obj[0]
-				if obj.response == False:
+				if obj.accept == True:
+					temp["pending"] = 2
+				elif obj.response == True:
+					temp["pending"] = 1
+				else:
 					temp["pending"] = 1
 			else:
 				temp["pending"] = 0
 			investor_data.append(temp)
 
-		
+		print(investor_data)
 		size = len(investor_data)
 		left = int(size/2)
 
