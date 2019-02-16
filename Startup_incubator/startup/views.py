@@ -4,11 +4,12 @@ from investor.models import Investor, Connections
 from recommendations.train import train_model
 from recommendations.test import predict
 from .models import Startup
-from administrator.models import Fund,Incubation
+from administrator.models import Fund,Incubation,AssignMentor
 from mentor.models import Mentor
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 from login.models import Type
+
 def dashboard(request):
 	if request.user.is_authenticated() :
 
@@ -71,34 +72,22 @@ def about_us(request):
 	
 def mentors(request):
 	if request.user.is_authenticated() :
-		mentors = Mentor.objects.all()
-		print(mentors)
-		mentor_data = []
-		for m in mentors:
+		mentors = []
+		assigns = AssignMentor.objects.filter(startup__user__user_id=request.user.id)
+		for a in assigns:
 			temp = {}
-			temp["mentor_user_id"] = m.user.user.id
-			temp["id"] = m.id
-			temp["name"] = m.name
-			temp["image"] = m.image.url
-			temp["description"] = m.description
+			temp["name"] = a.mentor.name
+			temp["months"] = a.months
+			temp["date"] = a.date
+			temp["description"] = a.mentor.description
+			temp["id"] = a.mentor.id
+			temp["image"] = a.mentor.image.url
+			mentors.append(temp)
+			size = len(mentors)
+			left = int(size/2)
+			mentors_right = mentors[:left]
+			mentors_left = mentors[left:]
 
-			obj = Connections.objects.filter(sentfrom_id=request.user.id,sentto_id=m.user.user.id)
-			if( len(obj) >= 1 ):
-				obj = obj[0]
-				if obj.response == False:
-					temp["pending"] = 1
-			else:
-				temp["pending"] = 0
-			mentor_data.append(temp)
-
-
-		print(mentor_data)
-
-		size = len(mentor_data)
-		left = int(size/2)
-
-		mentors_right = mentor_data[:left]
-		mentors_left = mentor_data[left:]
 		startup = Startup.objects.get(user__user_id=request.user.id)
 		return render(request,"startup/mentor.html",{'mentors_left':mentors_left,
 													'mentors_right':mentors_right,
@@ -342,3 +331,7 @@ def reject_connection(request,pk):
 	connection.accept = False
 	connection.save()
 	return redirect("/startup/show_pending_connections")
+
+def my_videos(request):
+	
+	return render(request,'startup/videolist.html')

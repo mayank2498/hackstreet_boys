@@ -15,8 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 import datetime
-#from administrator.models import Documents,Updates
-
+from administrator.models import AssignMentor
 
 # just a helper function. it can be reused for getting admin names
 def get_admin(id):
@@ -275,45 +274,33 @@ def reject_fund(request,pk):
 	return redirect("/administrator/show_fund")
 
 
+@csrf_exempt
 def assign_mentor(request):
+	if request.method == "GET":
 
-	return render(request,'administrator/assignmentor.html',{})
-
-
-
-def mentors(request):
-	if request.user.is_authenticated() :
 		mentors = Mentor.objects.all()
-		print(mentors)
-		mentor_data = []
-		for m in mentors:
-			temp = {}
-			temp["mentor_user_id"] = m.user.user.id
-			temp["id"] = m.id
-			temp["name"] = m.name
-			temp["image"] = m.image.url
-			temp["description"] = m.description
-
-			obj = Connections.objects.filter(sentfrom_id=request.user.id,sentto_id=m.user.user.id)
-			if( len(obj) >= 1 ):
-				obj = obj[0]
-				if obj.response == False:
-					temp["pending"] = 1
-			else:
-				temp["pending"] = 0
-			mentor_data.append(temp)
-
-
-		print(mentor_data)
-
-		size = len(mentor_data)
+		startups = Startup.objects.all()
+		size = len(mentors)
 		left = int(size/2)
 
-		mentors_right = mentor_data[:left]
-		mentors_left = mentor_data[left:]
-		startup = Startup.objects.get(user__user_id=request.user.id)
-		return render(request,"startup/mentor.html",{'mentors_left':mentors_left,
-													'mentors_right':mentors_right,
-													'startup':startup})
+		mentors_right = mentors[:left]
+		mentors_left = mentors[left:]
+
+		return render(request,'administrator/assignmentor.html',{'admin':get_admin(request.user.id),
+																 'startups':startups,
+																 'mentors_left':mentors_left,
+																 'mentors_right':mentors_right})
 	else:
-		return render(request,'front/login.html')
+		name = request.POST.get("startup")
+		
+		startup = Startup.objects.get(name=name)
+		
+		assign = AssignMentor()
+		assign.months = request.POST.get('months')
+		assign.startup_id = startup.id
+
+		mentor = Mentor.objects.get(id=request.POST.get('id'))
+		assign.mentor_id = mentor.id
+		assign.save()
+		request.session['message'] = "Assigned the mentor"
+		return redirect('/administrator')

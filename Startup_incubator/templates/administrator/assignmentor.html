@@ -7,70 +7,145 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
-   <link rel="stylesheet" href="{% static "startup/css/styleuser.css" %}">
+  <link rel="stylesheet" href="{% static "startup/css/styleuser.css" %}">
 </head>
 <body>
   <!--left navigation bar-->
   {% include "administrator/base.html" %} 
-<section id="contents">
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <i class="fa fa-align-right"></i>
-        </button>
-        <a class="navbar-brand" href="#">My<span class="main-color">Dashboard</span></a>
+  <section id="contents">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <i class="fa fa-align-right"></i>
+          </button>
+          <a class="navbar-brand" href="#">My<span class="main-color">Dashboard</span></a>
+        </div>
+        {% include "administrator/header.html" %}
       </div>
-      {% include "administrator/header.html" %}
-    </div>
-  </nav>	
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12" style="color:white;">
-       <br>
-       <h3>Assign Mentors</h3>
-       <section class="admins">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="box">
+    </nav>	
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12" style="color:white;">
+         <br>
+         <h3>Assign Mentors</h3>
+         <section class="admins">
+          <div class="container-fluid">
 
-                <div class="admin">
-                  <div class="img">
-                    <img class="img-responsive" src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance" alt="admin">
-                  </div>
-                  <div class="info">
-                    <h3>Joge Lucky</h3>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                    <form action="/action_page.php">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box">
+
+                  {% for m in mentors_left %}
+                    <div class="admin">
+                      <div class="img">
+                        <img style="height:100px;width:100px;margin-top:20%;" class="img-responsive" src="{{m.image.url}}" alt="admin">
+                      </div>
+                      <div class="info">
+                        <h3>{{m.name}}</h3>
+                        <p>{{ m.description|slice:":20" }}</p>
+                        <form method="POST" action="">
+                          <div class="row">
+                             <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="months">Duration</label>
+                            <input value="3" type="number" class="form-control" name="months" required>
+                            <input type="" name="id" value="{{m.id}}" style="display: none;">
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <br><br>
+                          <h4><b>Months</b></h4>
+                        </div>
+                      </div>
+                          <div class="form-group">
+                            <label for="sel1">Select Startup:</label>
+                            <select class="form-control" id="selid" name="startup">
+                               
+                              {% for s in startups %}
+                              <option>
+
+                              {{ s.name }} </option>
+                              {% endfor %}
+                            </select>
+                           
+                          </div>
+                          
+                          
+                          <button type="submit" class="btn btn-primary">
+                        
+                              Assign
+                    
+                          </button>
+                        </form>
+                      </div>
+                    {% endfor %}
+
+
+
+                  </div>           
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="box">
+                  {% for m in mentors_right %}
+                  <div class="admin">
+                    <div class="img">
+                      <img style="height:100px;width:100px;margin-top:20%;" class="img-responsive" src="{{m.image.url}}" alt="admin">
+                    </div>
+                    <div class="info">
+                      <h3>{{m.name}}</h3>
+                      <p>{{ m.description|slice:":20" }}</p>
+                      <form method="POST" action="">
+                        <div class="row">
+                           <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="months">Duration</label>
+                          <input value="3" type="number" class="form-control" name="months" required>
+                          <input type="" name="id" value="{{m.id}}" style="display: none;">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <br><br>
+                        <h4><b>Months</b></h4>
+                      </div>
+                    </div>
                         <div class="form-group">
                           <label for="sel1">Select Startup:</label>
-                          <select class="form-control" id="sel1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                          <select class="form-control" id="selid" name="startup">
+                             
+                            {% for s in startups %}
+                            <option>
+
+                            {{ s.name }} </option>
+                            {% endfor %}
                           </select>
+                         
                         </div>
-                      <br>
-                      <br>
-                      <button type="submit" class="btn btn-primary">Assign
-                      </button>
-                    </form>
+                        
+                        
+                        <button type="submit" class="btn btn-primary">
+                      
+                            Assign
+                  
+                        </button>
+                      </form>
+                    </div>
+                    {% endfor %}
 
 
-                  </div>
-                </div>           
+
+                  </div>           
+                </div>
               </div>
             </div>
-
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
 
-  </div>
-</div>	  
+    </div>
+  </div>	  
 </section>
 
 
