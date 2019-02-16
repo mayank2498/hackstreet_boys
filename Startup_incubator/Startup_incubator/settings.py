@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     'mentor',
     'investor',
     'login',
-    'administrator'
+    'administrator',
+    'library',
+    'rent'
 ]
 
 MIDDLEWARE = [
