@@ -36,10 +36,11 @@ class Startup(models.Model):
 		return str(self.name)
 
 class Tickets(models.Model):
+	title = models.CharField(max_length=100,null=True)
 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
 	issue = models.CharField(max_length=1000,null=True)
 	status = models.BooleanField(default=False)
-	solved_date = models.DateTimeField(auto_now=True, auto_now_add=False)
+	solved_date = models.DateTimeField(null=True,blank=True)
 	issue_date = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 

@@ -47,9 +47,9 @@
         <td>{{ req.date }}</td>
         <td><a href="{{ req.ppt.url }}">Click here</a></td>
         <td><button type="button" class="btn btn-success">
-            <a href="{% url 'administrator:accept_incubation' req.id%}" "> Accept</a>
+            <a style="color:white;" href="{% url 'administrator:accept_incubation' req.id%}" "> Accept</a>
             </button>&nbsp;<button type="button" class="btn btn-danger">
-              <a href="{% url 'administrator:reject_incubation' req.id%}" ">Reject</a>></button></td>
+              <a style="color:white;" href="{% url 'administrator:reject_incubation' req.id%}" ">Reject</a></button></td>
       </tr>
       {% endfor %}
       

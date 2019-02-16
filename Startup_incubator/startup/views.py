@@ -3,8 +3,13 @@ from django.http import HttpResponse
 from investor.models import Investor, Connections
 from recommendations.train import train_model
 from recommendations.test import predict
+
 from .models import Startup
-from administrator.models import Fund,Incubation,AssignMentor
+from administrator.models import Fund,Incubation,AssignMentor,Documents
+
+from .models import Startup,Tickets
+from administrator.models import Fund,Incubation
+
 from mentor.models import Mentor
 from django.views.decorators.csrf import csrf_exempt
 import datetime
@@ -332,6 +337,34 @@ def reject_connection(request,pk):
 	connection.save()
 	return redirect("/startup/show_pending_connections")
 
+
 def my_videos(request):
 	
 	return render(request,'startup/videolist.html')
+
+@csrf_exempt
+def generate_ticket(request):
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	if request.method == "GET":
+		return render(request,'startup/createtickets.html',{'startup':startup,'msg':''})
+	else:
+		ticket = Tickets()
+		ticket.title = request.POST['title']
+		ticket.issue = request.POST['issue']
+		ticket.startup=startup
+		ticket.save()
+		return render(request,'startup/createtickets.html',{'startup':startup,'msg':'sent'})
+
+
+
+@csrf_exempt
+def upload_documents(request):
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	startups = Startup.objects.all()
+
+	documents = Documents.objects.all()
+	
+	if request.method =="GET":
+		return render(request, 'startup/uploaddocs.html',{'errormessage':'',
+														  'startup':startup})
+

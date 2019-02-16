@@ -28,32 +28,13 @@
           <div class="row">
             <div class="col-md-12" style="color:white;">
       <br>
+
+      <div class="row">
+            <div class="col-md-6" style="color:white;">
              <h3>Mentors</h3>
-             <section class="admins">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="box">
-                
-                {% for m in mentors_left %} 
-                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
-                      <div class="admin">
-                        <div class="img">
-                          <img class="img-responsive" style="height:85px;width:85px;"  src="{{m.image.url}}" alt="admin">
-                        </div>
-                        <div class="info">
-                          <h3>{{ m.name }}</h3>
-                          <p>{{ m.description|slice:":100" }}</p>
-                        </div>
-                      </div>
-                    </a>
-                {% endfor %}
-    
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="box">
+
                 {% for m in mentors_right %} 
+                
                     <a href="{% url 'startup:mentor_popup' m.id%}" ">
                       <div class="admin">
                         <div class="img">
@@ -65,11 +46,35 @@
                         </div>
                       </div>
                     </a>
+          
                 {% endfor %}
+              
               </div>
             </div>
-          </div>
-          </section>
+            
+            
+<!--             <div class="col-md-6">
+              
+                {% for m in mentors_right %} 
+                <div class="box">
+                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
+                      <div class="admin">
+                        <div class="img">
+                          <img class="img-responsive" style="height:85px;width:85px;"  src="{{m.image.url}}" alt="admin">
+                        </div>
+                        <div class="info">
+                          <h3>{{ m.name }}</h3>
+                          <p>{{ m.description|slice:":100" }}</p>
+                        </div>
+                      </div>
+                    </a>
+                    </div>
+                {% endfor %}
+              
+            </div> -->
+       
+
+       
        </div>
 
           </div>
