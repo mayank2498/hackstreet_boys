@@ -1,9 +1,10 @@
 from django.contrib import admin
 
-from .models import Founder, Startup,Tickets
+from .models import Founder, Startup,Tickets,Bookings
 
 admin.site.register(Founder)
 admin.site.register(Tickets)
+admin.site.register(Bookings)
 
 # Register your models here.
 

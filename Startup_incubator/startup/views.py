@@ -4,16 +4,22 @@ from investor.models import Investor, Connections
 from recommendations.train import train_model
 from recommendations.test import predict
 
+from .models import Startup,Tickets,Bookings
+
 from .models import Startup
 from administrator.models import Fund,Incubation,AssignMentor,Documents
 
 from .models import Startup,Tickets
+
 from administrator.models import Fund,Incubation
 
 from mentor.models import Mentor
 from django.views.decorators.csrf import csrf_exempt
-import datetime
+from datetime import date,datetime
 from login.models import Type
+
+import calendar
+from django.utils.dateparse import parse_date
 
 def dashboard(request):
 	if request.user.is_authenticated() :
@@ -355,6 +361,69 @@ def generate_ticket(request):
 		ticket.save()
 		return render(request,'startup/createtickets.html',{'startup':startup,'msg':'sent'})
 
+@csrf_exempt
+def show_bookings(request):
+	if request.method == "GET":
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		today = date.today()
+		print(today)
+		bookings = Bookings.objects.filter(date__gt=today).order_by('date')
+		store = datetime.today().weekday()+1
+		print("sd")
+		for p in bookings:
+			p.day = calendar.day_name[p.date.weekday()]
+			p.save()
+
+		x = []
+		days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+		for i in range(7):
+			obj = {}
+			obj["day"] = days[i]
+			try:
+				print("df1")
+				book = Bookings.objects.filter(date__gt=today,day=days[i])
+				for j in range(10,18):
+					try:
+						val = Bookings.objects.get(date__gt=today,day=days[i],time=j)
+						obj["name"] = val.startup.name
+						obj[j] = 1
+					except:
+						obj[j] = 0
+			except:
+				print("dfs")
+				for j in range(10,18):
+					obj[j] = 0
+			x.append(obj)
+		print(x)
+		run = []
+		for i in range(10,18):
+			run.append(i)
+		x_left = x[store:]
+		x_right = x[:store]
+		x = x_left+x_right
+		return render(request,'startup/booking.html',{'bookings':x,'startup':startup,'run':run,'store':store})
+
+@csrf_exempt
+def select_booking(request):
+	print(request.POST)
+	row = request.POST.get('row')
+	col = request.POST.get('col')
+	a = request.POST.get('today')
+	date = datetime.strptime(a, '%Y%m%d').strftime('%Y/%m/%d')
+	val = datetime.strptime(date, "%Y/%m/%d").date()
+	
+	print(type(val))
+	booking = Bookings()
+	sta = Startup.objects.get(user__user__id=request.user.id)
+	booking.startup_id = sta.id
+	booking.day = col
+	print(booking.day)
+	booking.time = row
+	booking.date = val
+	booking.save()
+
+	return HttpResponse("success")
+
 
 
 @csrf_exempt
@@ -367,4 +436,3 @@ def upload_documents(request):
 	if request.method =="GET":
 		return render(request, 'startup/uploaddocs.html',{'errormessage':'',
 														  'startup':startup})
-

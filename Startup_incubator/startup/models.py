@@ -44,6 +44,13 @@ class Tickets(models.Model):
 	issue_date = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 
+
+class Bookings(models.Model):
+	startup = models.ForeignKey(Startup,on_delete=models.CASCADE,null=True	)
+	date = models.DateField(null=True,blank=True)
+	day = models.CharField(max_length=100,null=True,blank=True)
+	time = models.IntegerField(null=True,blank=True)
+	status = models.BooleanField(default=False)
 # class Connection_investor(models.Model):
 # 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE,null=True)
 # 	investor = models.ForeignKey(Investor,on_delete=models.CASCADE,null=True)

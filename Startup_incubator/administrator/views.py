@@ -295,6 +295,12 @@ def solve_ticket(request,pk):
 	return render(request,'administrator/showtickets.html',{'admin':get_admin(request.user.id),'ticket':ticket,'msg':'done'})
 
 
+def assign_mentor(request):
+
+	return render(request,'administrator/assignmentor.html',{})
+
+
+
 @csrf_exempt
 def assign_mentor(request):
 	if request.method == "GET":

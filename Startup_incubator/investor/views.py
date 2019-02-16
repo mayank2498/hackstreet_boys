@@ -141,7 +141,7 @@ def reject_connection(request,pk):
 	num = startup.user.user.id
 	print(num)
 	connection = Connections.objects.get(sentto_id=request.user.id,sentfrom_id=num) 
-
+	
 	connection.response = True
 	connection.accept = False
 	connection.save()
