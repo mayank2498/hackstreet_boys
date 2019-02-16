@@ -3,15 +3,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Incubation request</title>
+  <title>My Videos</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
-  <link rel="stylesheet" href="{% static "administrator/css/styleuser.css" %}">
+  <link rel="stylesheet" href="{% static 'startup/css/styleuser.css' %}">
 </head>
 <body>
   <!--left navigation bar-->
-  {% include "administrator/base.html" %} 
+  {% include "startup/base.html" %} 
 <section id="contents">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -19,62 +19,64 @@
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
           <i class="fa fa-align-right"></i>
         </button>
-        <a class="navbar-brand" href="#">Incubation Requests<span class="main-color"></span></a>
+        <a class="navbar-brand" href="#">My Videos<span class="main-color"></span></a>
       </div>
-      {% include "administrator/header.html" %}
+      {% include "startup/base.html" %} 
     </div>
   </nav>	
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12" style="color:white;">
-       <br>
-<table class="table table-bordered">
+        <br>
+        <br>
+   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Company Name</th>
-        <th>Type</th>
-        <th>Date</th>
-        <th>Document link</th>
-        <th>Accept/Reject</th>
+        <th>S No.</th>
+        <th>Video name</th>
+        <th>Link</th>
       </tr>
     </thead>
     <tbody>
-
-      {% for req in incubation %}
       <tr>
-        <td>{{ req.startup.name }}</td>
-        <td>{{ req.startup.cat }}</td>
-        <td>{{ req.date }}</td>
-        <td><a href="{{ req.ppt.url }}">Click here</a></td>
-        <td><button type="button" class="btn btn-success">
-            <a style="color:white;" href="{% url 'administrator:accept_incubation' req.id%}" "> Accept</a>
-            </button>&nbsp;<button type="button" class="btn btn-danger">
-              <a style="color:white;" href="{% url 'administrator:reject_incubation' req.id%}" ">Reject</a></button></td>
+        <td>1</td>
+        <td>mihir</td>
+        <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Open</button></td>
       </tr>
-      {% endfor %}
-      
     </tbody>
   </table>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Video</h4>
+      </div>
+      <div class="modal-body">
+        <p><div class="embed-responsive embed-responsive-16by9">
+  <iframe class="embed-responsive-item" src="https://www.indiatoday.in/elections/video/what-happened-during-rafale-deal-was-treason-rahul-gandhi-sharpens-attack-1454162-2019-02-12" allowfullscreen></iframe>
+</div></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
      </div>
    </div>
  </div>	  
 </section>
-
-  <script type="text/javascript">
-     
-      var x = '{{msg}}' ;
-      if (x.length > 2){
-        swal('{{ msg }}');
-      } 
-      
-      </script>
-
 <script src='http://code.jquery.com/jquery-latest.js'></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
-<script src="{% static "administrator/js/mainuser.js"%}"></script>
+<script src="{% static "startup/js/main.js" %} "></script>
 </body>
 </html>
-<script  src="{% static "administrator/js/indexuser.js"%}"></script>
+<script  src="{% static "startup/js/indexuser.js" %} "></script>
 </body> 
 </html>

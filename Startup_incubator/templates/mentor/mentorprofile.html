@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +7,7 @@
 
 <body>
   <!--left navigation bar-->
-  
+  {% include "mentor/base.html" %} 
 <section id="contents">
   <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -14,7 +15,7 @@
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
           <i class="fa fa-align-right"></i>
         </button>
-        <a class="navbar-brand" href="#">Evaluation<span class="main-color"></span></a>
+        <a class="navbar-brand" href="#">Profile<span class="main-color"></span></a>
       </div>
       
     </div>
@@ -24,10 +25,14 @@
       <div class="col-md-12">
        <br>
 <div class="card" style="color:white;">
-  <img src="img/admin.jpg" alt="John" >
-  <h1>John Doe</h1>
-  <p class="title">CEO & Founder, Example</p>
-  <p>Harvard University</p>
+  <img src="{{ mentor.image.url }}" height="100" width="100"  alt="John" >
+  <h1>{{mentor.name}}</h1>
+  <p class="title">{{mentor.expertise}}</p>
+  <p>{{mentor.email}}</p>
+  <p>{{mentor.phone_number}}</p>
+  <p>{{mentor.investment_range}}</p>
+  <p>{{mentor.description}}</p>
+
   <div style="margin: 24px 0;">
     <a href="#"><i class="fa fa-dribbble"></i></a> 
     <a href="#"><i class="fa fa-twitter"></i></a>  
@@ -38,5 +43,16 @@
 </div>
     </div>
   </div>
-</div>	  
+</div>    
 </section>
+
+ <script type="text/javascript">
+     
+      var x = '{{msg}}' ;
+      if (x.length > 2){
+        swal('{{ msg }}');
+      } 
+      
+      </script>
+
+    <script  src="{% static "startup/js/indexuser.js" %} "></script>

@@ -43,7 +43,7 @@
                     <h4><span>Startup Name &nbsp;&nbsp;</span>{{t.startup.name}}</h4>
 
                     <p>created on &nbsp; - &nbsp;{{t.issue_date}}</p>
-                    <a href="{% url 'administrator:show_ticket' t.startup.id%}"><button type="button" class="btn btn-primary">View</button></a>
+                    <a href="{% url 'administrator:show_ticket' t.id%}"><button type="button" class="btn btn-primary">View</button></a>
                   </div>
                 </div>
                 {% endfor %}
@@ -66,7 +66,7 @@
                     <h4><span>Startup Name &nbsp;&nbsp;</span>{{t.startup.name}}</h4>
 
                     <p>created on &nbsp; - &nbsp;{{t.issue_date}}</p>
-                     <a href="{% url 'administrator:show_ticket' t.startup.id%}"><button type="button" class="btn btn-primary">View</button></a>
+                     <a href="{% url 'administrator:show_ticket' t.id%}"><button type="button" class="btn btn-primary">View</button></a>
                   </div>
                 </div>
                 {% endfor %}

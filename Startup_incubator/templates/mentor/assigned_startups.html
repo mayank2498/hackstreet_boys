@@ -3,7 +3,7 @@
  <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Mentors</title>
+    <title>Startups</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet">
@@ -11,7 +11,7 @@
   </head>
   <body>
   <!--left navigation bar-->
-    {% include "administrator/base.html" %} 
+    {% include "mentor/base.html" %} 
     <section id="contents">
       <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -19,48 +19,47 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
               <i class="fa fa-align-right"></i>
             </button>
-            <a class="navbar-brand" href="#">My<span class="main-color">Mentors</span></a>
+            <a class="navbar-brand" href="#">My<span class="main-color">Startups</span></a>
           </div>
-          {% include "administrator/header.html" %}
+          {% include "mentor/header.html" %}
         </div>
-      </nav>  
+      </nav>	
       <div class="container-fluid">
           <div class="row">
             <div class="col-md-12" style="color:white;">
-      <br>
-
-      <div class="row">
-            <div class="col-md-6" style="color:white;">
-             <h3>Mentors</h3>
-
-                {% for m in mentors_right %} 
+			<br>
+             <h3>Startups</h3>
+			       <section class="admins">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="box">
                 
-                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
+                {% for m in assigns_left %} 
+                    <a href="{% url 'startup:startup_popup' m.startup.id%}" >
                       <div class="admin">
                         <div class="img">
-                          <img class="img-responsive" style="height:85px;width:85px;"  src="{{m.image.url}}" alt="admin">
+                          <img class="img-responsive" src="{{m.startup.image.url}}">
                         </div>
                         <div class="info">
-                          <h3>{{ m.name }}</h3>
-                          <p>{{ m.description|slice:":100" }}</p>
+                          <h3>{{ m.startup.name }}</h3>
+                          <p>{{ m.startup.description|slice:":100" }}</p>
+                          <p>Date Assigned : {{m.date}}</p>
+                          <p>Duration : {{m.months}} months</p>
                         </div>
                       </div>
                     </a>
-          
                 {% endfor %}
-              
+                    
               </div>
             </div>
-            
-            
-<!--             <div class="col-md-6">
-              
-                {% for m in mentors_right %} 
-                <div class="box">
-                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
+            <div class="col-md-6">
+              <div class="box">
+                {% for m in assigns_right %} 
+                    <a href="{% url 'startup:startup_popup' m.id%}" ">
                       <div class="admin">
                         <div class="img">
-                          <img class="img-responsive" style="height:85px;width:85px;"  src="{{m.image.url}}" alt="admin">
+                          <img class="img-responsive" src="{{m.image.url}}" alt="admin">
                         </div>
                         <div class="info">
                           <h3>{{ m.name }}</h3>
@@ -68,19 +67,17 @@
                         </div>
                       </div>
                     </a>
-                    </div>
                 {% endfor %}
-              
-            </div> -->
-       
-
-       
-       </div>
+              </div>
+            </div>
+          </div>
+          </section>
+			 </div>
 
           </div>
-        </div>    
+        </div>	  
       </section>
-          
+	        
   
 
       <script src='http://code.jquery.com/jquery-latest.js'></script>

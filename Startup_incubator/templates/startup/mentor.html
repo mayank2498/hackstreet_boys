@@ -46,7 +46,8 @@
                       <h3 style="color:white;">{{ m.name }}</h3>
 
                       <p>{{ m.description|slice:":80" }}</p>
-
+                        <p>{{ m.date }}</p>
+                        <p>Duration - {{ m.months }} months</p>
                 
 
                     </div>
@@ -62,7 +63,7 @@
             <div class="col-md-6">
               <div class="box">
                 {% for m in mentors_right %} 
-                <a href="{% url 'startup:mentor_popup' m.id%}" ">
+                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
                   <div class="admin">
                     <div class="img">
                       <img class="img-responsive" style="height:85px;width:85px;margin-top: 25%;"  src="{{m.image}}" alt="admin">
@@ -71,14 +72,16 @@
                       <h3 style="color:white;">{{ m.name }}</h3>
 
                       <p>{{ m.description|slice:":80" }}</p>
-
-                      
+                        <p>{{ m.date }}</p>
+                        <p>Duration - {{ m.months }} months</p>
+                
 
                     </div>
 
 
                  </div>
                 </a>
+                
 
                 {% endfor %}
               </div>

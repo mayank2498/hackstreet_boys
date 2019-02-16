@@ -23,7 +23,7 @@
       </div>
       {% include "administrator/header.html" %}
     </div>
-  </nav>	
+  </nav>  
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12" style="color:white;">
@@ -31,46 +31,138 @@
        <h3>Assign Mentors</h3>
        <section class="admins">
         <div class="container-fluid">
+
+
           <div class="row">
             <div class="col-md-6">
               <div class="box">
-
+ {% for m in mentors_left %}
                 <div class="admin">
-                  <div class="img">
-                    <img class="img-responsive" src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance" alt="admin">
-                  </div>
-                  <div class="info">
-                    <h3>Joge Lucky</h3>
-                    <p>Lorem ipsum dolor sit amet.</p>
-                    <form action="/action_page.php">
+                  
+
+                  <div class="admin">
+                    <div class="img">
+                      <img style="height:100px;width:100px;margin-top:20%;" class="img-responsive" src="{{m.image.url}}" alt="admin">
+                    </div>
+                    <div class="info">
+                      <h3>{{m.name}}</h3>
+                      <p>{{ m.description|slice:":20" }}</p>
+                      <form method="POST" action="">
+                        <div class="row">
+                           <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="months">Duration</label>
+                          <input value="3" type="number" class="form-control" name="months" required>
+                          <input type="" name="id" value="{{m.id}}" style="display: none;">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <br><br>
+                        <h4><b>Months</b></h4>
+                      </div>
+                    </div>
                         <div class="form-group">
                           <label for="sel1">Select Startup:</label>
-                          <select class="form-control" id="sel1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
+                          <select class="form-control" id="selid" name="startup">
+                             
+                            {% for s in startups %}
+                            <option>
+
+                            {{ s.name }} </option>
+
+                            {% endfor %}
+
                           </select>
+                         
                         </div>
-                      <br>
-                      <br>
-                      <button type="submit" class="btn btn-primary">Assign
-                      </button>
-                    </form>
+                        
+                        
+                        <button type="submit" class="btn btn-primary">
+                      
+                            Assign
+                  
+                        </button>
+                      </form>
+                    </div>
 
+                   
 
-                  </div>
                 </div>           
               </div>
+               {% endfor %}
             </div>
 
           </div>
+   <div class="col-md-6">
+              <div class="box">
+ {% for m in mentors_right %}
+                <div class="admin">
+                  
+
+                  <div class="admin">
+                    <div class="img">
+                      <img style="height:100px;width:100px;margin-top:20%;" class="img-responsive" src="{{m.image.url}}" alt="admin">
+                    </div>
+                    <div class="info">
+                      <h3>{{m.name}}</h3>
+                      <p>{{ m.description|slice:":20" }}</p>
+                      <form method="POST" action="">
+                        <div class="row">
+                           <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="months">Duration</label>
+                          <input value="3" type="number" class="form-control" name="months" required>
+                          <input type="" name="id" value="{{m.id}}" style="display: none;">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <br><br>
+                        <h4><b>Months</b></h4>
+                      </div>
+                    </div>
+                        <div class="form-group">
+                          <label for="sel1">Select Startup:</label>
+                          <select class="form-control" id="selid" name="startup">
+                             
+                            {% for s in startups %}
+                            <option>
+
+                            {{ s.name }} </option>
+
+                            {% endfor %}
+
+                          </select>
+                         
+                        </div>
+                        
+                        
+                        <button type="submit" class="btn btn-primary">
+                      
+                            Assign
+                  
+                        </button>
+                      </form>
+                    </div>
+
+                   
+
+                </div>           
+              </div>
+               {% endfor %}
+            </div>
+
+          </div>
+
+            
+          </div>
+
+          
         </div>
       </section>
     </div>
 
   </div>
-</div>	  
+</div>    
 </section>
 
 

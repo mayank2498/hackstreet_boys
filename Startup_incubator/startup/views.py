@@ -3,14 +3,24 @@ from django.http import HttpResponse
 from investor.models import Investor, Connections
 from recommendations.train import train_model
 from recommendations.test import predict
+
 from .models import Startup,Tickets,Bookings
+
+from .models import Startup
+from administrator.models import Fund,Incubation,AssignMentor,Documents
+
+from .models import Startup,Tickets
+
 from administrator.models import Fund,Incubation
+
 from mentor.models import Mentor
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date,datetime
 from login.models import Type
+
 import calendar
 from django.utils.dateparse import parse_date
+
 def dashboard(request):
 	if request.user.is_authenticated() :
 
@@ -73,34 +83,22 @@ def about_us(request):
 	
 def mentors(request):
 	if request.user.is_authenticated() :
-		mentors = Mentor.objects.all()
-		print(mentors)
-		mentor_data = []
-		for m in mentors:
+		mentors = []
+		assigns = AssignMentor.objects.filter(startup__user__user_id=request.user.id)
+		for a in assigns:
 			temp = {}
-			temp["mentor_user_id"] = m.user.user.id
-			temp["id"] = m.id
-			temp["name"] = m.name
-			temp["image"] = m.image.url
-			temp["description"] = m.description
+			temp["name"] = a.mentor.name
+			temp["months"] = a.months
+			temp["date"] = a.date
+			temp["description"] = a.mentor.description
+			temp["id"] = a.mentor.id
+			temp["image"] = a.mentor.image.url
+			mentors.append(temp)
+			size = len(mentors)
+			left = int(size/2)
+			mentors_right = mentors[:left]
+			mentors_left = mentors[left:]
 
-			obj = Connections.objects.filter(sentfrom_id=request.user.id,sentto_id=m.user.user.id)
-			if( len(obj) >= 1 ):
-				obj = obj[0]
-				if obj.response == False:
-					temp["pending"] = 1
-			else:
-				temp["pending"] = 0
-			mentor_data.append(temp)
-
-
-		print(mentor_data)
-
-		size = len(mentor_data)
-		left = int(size/2)
-
-		mentors_right = mentor_data[:left]
-		mentors_left = mentor_data[left:]
 		startup = Startup.objects.get(user__user_id=request.user.id)
 		return render(request,"startup/mentor.html",{'mentors_left':mentors_left,
 													'mentors_right':mentors_right,
@@ -344,6 +342,12 @@ def reject_connection(request,pk):
 	connection.accept = False
 	connection.save()
 	return redirect("/startup/show_pending_connections")
+
+
+def my_videos(request):
+	
+	return render(request,'startup/videolist.html')
+
 @csrf_exempt
 def generate_ticket(request):
 	startup = Startup.objects.get(user__user_id=request.user.id)
@@ -356,6 +360,7 @@ def generate_ticket(request):
 		ticket.startup=startup
 		ticket.save()
 		return render(request,'startup/createtickets.html',{'startup':startup,'msg':'sent'})
+
 @csrf_exempt
 def show_bookings(request):
 	if request.method == "GET":
@@ -418,3 +423,16 @@ def select_booking(request):
 	booking.save()
 
 	return HttpResponse("success")
+
+
+
+@csrf_exempt
+def upload_documents(request):
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	startups = Startup.objects.all()
+
+	documents = Documents.objects.all()
+	
+	if request.method =="GET":
+		return render(request, 'startup/uploaddocs.html',{'errormessage':'',
+														  'startup':startup})
