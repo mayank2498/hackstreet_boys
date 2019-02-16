@@ -27,31 +27,43 @@ class Startup(models.Model):
 	image = models.FileField(upload_to='profile_photos/',default='profile_photos/default.jpg')
 	dippno = models.CharField(max_length=100,blank=True,null=True)
 	cat = models.CharField(max_length=100,blank=True,null=True)
+	experience = models.CharField(max_length=100,null=True)
+	no_of_employees = models.CharField(max_length=100,null=True)
+	admin_funded = models.BooleanField(default=False)
+
 	#recommended_investors = models.ManyToManyField(Investor,blank=True)
 	def __str__(self):
 		return str(self.name)
 
-class Connection_investor(models.Model):
-	startup = models.ForeignKey(Startup,on_delete=models.CASCADE,null=True)
-	investor = models.ForeignKey(Investor,on_delete=models.CASCADE,null=True)
-	S_to_I = models.BooleanField(default=True)
-	accepted = models.BooleanField(default=False)
-	pending = models.BooleanField(default=True)
-
-class Connection_mentor(models.Model):
-	startup = models.ForeignKey(Startup,on_delete=models.CASCADE,null=True)
-	mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE,null=True)
-	S_to_M = models.BooleanField(default=True)
-	accepted = models.BooleanField(default=False)
-	pending = models.BooleanField(default=True)
-
-
-class Incubation_request(models.Model):
+class Tickets(models.Model):
 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
-	ppt = models.FileField(null=True,upload_to='Incubation_ppts/')
-	pending = models.BooleanField(default=True)
-	accepted = models.BooleanField(default=False)
-	date_applied = models.DateTimeField(auto_now=True, auto_now_add=False)
+	issue = models.CharField(max_length=1000,null=True)
+	status = models.BooleanField(default=False)
+	solved_date = models.DateTimeField(auto_now=True, auto_now_add=False)
+	issue_date = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+
+# class Connection_investor(models.Model):
+# 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE,null=True)
+# 	investor = models.ForeignKey(Investor,on_delete=models.CASCADE,null=True)
+# 	S_to_I = models.BooleanField(default=True)
+# 	accepted = models.BooleanField(default=False)
+# 	pending = models.BooleanField(default=True)
+
+# class Connection_mentor(models.Model):
+# 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE,null=True)
+# 	mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE,null=True)
+# 	S_to_M = models.BooleanField(default=True)
+# 	accepted = models.BooleanField(default=False)
+# 	pending = models.BooleanField(default=True)
+
+	
+# class Incubation_request(models.Model):
+# 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
+# 	ppt = models.FileField(null=True,upload_to='Incubation_ppts/')
+# 	pending = models.BooleanField(default=True)
+# 	accepted = models.BooleanField(default=False)
+# 	date_applied = models.DateTimeField(auto_now=True, auto_now_add=False)
 
 TASK_STATUS = ( ('Pending','Pending'),('In Progress','In Progress') )
 class Tasks(models.Model):

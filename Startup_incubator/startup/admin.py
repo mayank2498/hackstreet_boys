@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Founder, Startup, Incubation_request
+from .models import Founder, Startup
 
 admin.site.register(Founder)
 
@@ -12,4 +12,3 @@ admin.site.register(Startup,StartupAdmin)
 
 class Incubation_requestAdmin(admin.ModelAdmin):
 	list_display = ["ppt","date_applied","accepted","pending"]
-admin.site.register(Incubation_request,Incubation_requestAdmin)
