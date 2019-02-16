@@ -25,7 +25,14 @@ def get_admin(id):
 
 
 def dashboard(request):
-	return render(request,'administrator/dashboard.html',{'admin':get_admin(request.user.id)})
+	if not request.user.is_authenticated() :
+		print("Not authenticated")
+	msg = ""
+	if request.session.get('message', False):
+		msg = request.session.get('message')
+		del request.session['message']
+		print(msg)
+	return render(request,'administrator/dashboard.html',{'admin':get_admin(request.user.id),'msg':msg})
 
 
 
@@ -69,7 +76,8 @@ def add_mentor(request):
 		to_email = email
 		email1 = EmailMessage(mail_subject, message, to=[to_email])
 		email1.send()
-		return HttpResponse("mentor added")
+		request.session['message'] = "Mentor successfully added !"
+		return redirect('/administrator')
 
 
 @csrf_exempt		
@@ -102,7 +110,9 @@ def add_investor(request):
 		to_email = email
 		email1 = EmailMessage(mail_subject, message, to=[to_email])
 		email1.send()
-		return HttpResponse("investor added")
+		request.session['message'] = "Investor successfully added !"
+		return redirect('/administrator')
+
 
 
 
@@ -264,6 +274,7 @@ def reject_fund(request,pk):
 	fund.save()
 	return redirect("/administrator/show_fund")
 
+<<<<<<< HEAD
 def show_tickets(request):
 
 	tickets = Tickets.objects.filter(status=False)
@@ -284,3 +295,48 @@ def solve_ticket(request,pk):
 	ticket.status = True
 	ticket.save()
 	return render(request,'administrator/showtickets.html',{'admin':get_admin(request.user.id),'ticket':ticket,'msg':'done'})
+=======
+
+def assign_mentor(request):
+
+	return render(request,'administrator/assignmentor.html',{})
+
+
+
+def mentors(request):
+	if request.user.is_authenticated() :
+		mentors = Mentor.objects.all()
+		print(mentors)
+		mentor_data = []
+		for m in mentors:
+			temp = {}
+			temp["mentor_user_id"] = m.user.user.id
+			temp["id"] = m.id
+			temp["name"] = m.name
+			temp["image"] = m.image.url
+			temp["description"] = m.description
+
+			obj = Connections.objects.filter(sentfrom_id=request.user.id,sentto_id=m.user.user.id)
+			if( len(obj) >= 1 ):
+				obj = obj[0]
+				if obj.response == False:
+					temp["pending"] = 1
+			else:
+				temp["pending"] = 0
+			mentor_data.append(temp)
+
+
+		print(mentor_data)
+
+		size = len(mentor_data)
+		left = int(size/2)
+
+		mentors_right = mentor_data[:left]
+		mentors_left = mentor_data[left:]
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		return render(request,"startup/mentor.html",{'mentors_left':mentors_left,
+													'mentors_right':mentors_right,
+													'startup':startup})
+	else:
+		return render(request,'front/login.html')
+>>>>>>> 90206ca54a893dbe20fc395cff3fa502ca5a2728

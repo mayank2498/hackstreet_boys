@@ -47,18 +47,7 @@
 
                       <p>{{ m.description|slice:":80" }}</p>
 
-                      {% if m.pending == 0 %}
-                        <button type="button" class="btn btn-primary">
-                            <a style="color:white;" href="{% url 'startup:send_connection_request' m.mentor_user_id%}">
-                             Connect
-                           </a>
-                         </button>
-                      {% endif %}
-                      {% if m.pending == 1 %}
-                        <button type="button" class="btn btn-primary">
-                            Pending
-                         </button>
-                      {% endif %}
+                
 
                     </div>
 
@@ -83,18 +72,7 @@
 
                       <p>{{ m.description|slice:":80" }}</p>
 
-                      {% if m.pending == 0 %}
-                        <button type="button" class="btn btn-primary">
-                            <a style="color:white;" href="{% url 'startup:send_connection_request' m.mentor_user_id%}">
-                             Connect
-                           </a>
-                         </button>
-                      {% endif %}
-                      {% if m.pending == 1 %}
-                        <button type="button" class="btn btn-primary">
-                            Pending
-                         </button>
-                      {% endif %}
+                      
 
                     </div>
 

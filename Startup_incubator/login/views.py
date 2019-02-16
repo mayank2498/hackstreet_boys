@@ -88,24 +88,28 @@ def login_user(request):
 	else:
 		email = request.POST['email']
 		password = request.POST['password']
-		
+			
 		try:
+			print(email)
 			user = User.objects.get(email=email)
+			print(user.username)
 			user = authenticate(username=user.username, password=password)
 		except:
 			return render(request, 'front/login.html', {'error_message': 'Incorrect Credentials'})
 		if user is not None:
 			if user.is_active:
 				login(request,user)
+				print("logged in")
 				user1 = Type.objects.get(user_id=user.id)
 				if user1.typ == "startup":
 					startup = Startup.objects.get(user_id=user1.id)
 					return redirect("/startup/")
 				if user1.typ == "investor":
 					startup = Investor.objects.get(user_id=user1.id)
+					return redirect('/investor/')
 				if user1.typ == "mentor":
 					startup = Mentor.objects.get(user_id=user1.id)
-				
+					return redirect('/mentor')
 			else:
 				return render(request, 'front/login.html', {'error_message': 'Your account has been disabled'})
 
