@@ -81,7 +81,7 @@ def about_us(request):
 	if request.user.is_authenticated() :
 		startup = Startup.objects.get(user__user_id=request.user.id)
 		print(startup.name)
-		return render(request,"startup/about.html",{'startup':startup})
+		return render(request,"startup/about.html",{'startup':startup,'accepted':"true"})
 	else:
 		return render(request,'front/login.html')
 	
@@ -98,26 +98,27 @@ def mentors(request):
 			temp["id"] = a.mentor.id
 			temp["image"] = a.mentor.image.url
 			mentors.append(temp)
-			size = len(mentors)
-			left = int(size/2)
-			mentors_right = mentors[:left]
-			mentors_left = mentors[left:]
+		size = len(mentors)
+		left = int(size/2)
+		mentors_right = mentors[:left]
+		mentors_left = mentors[left:]
 
 		startup = Startup.objects.get(user__user_id=request.user.id)
 		return render(request,"startup/mentor.html",{'mentors_left':mentors_left,
 													'mentors_right':mentors_right,
-													'startup':startup})
+													'startup':startup,
+													'accepted':"true"})
 	else:
 		return render(request,'front/login.html')
 
 
 def startup_profile_popup(request,pk):
 	startup = Startup.objects.get(id=pk)
-	return render(request,'startup/startup_profile_popup.html',{'startup':startup})
+	return render(request,'startup/startup_profile_popup.html',{'startup':startup,'accepted':"true"})
 
 def mentor_profile_popup(request,pk):
 	mentor = Mentor.objects.get(id=pk)
-	return render(request,'startup/mentor_profile_popup.html',{'mentor':mentor})
+	return render(request,'startup/mentor_profile_popup.html',{'mentor':mentor,'accepted':"true"})
 
 def investors(request):
 	if request.user.is_authenticated() :
@@ -154,13 +155,14 @@ def investors(request):
 		startup = Startup.objects.get(user__user_id=request.user.id)
 		return render(request,"startup/investor.html",{'investors_left':investors_left,
 													'investors_right':investors_right,
-													'startup':startup})
+													'startup':startup,
+													'accepted':"true"})
 	else:
 		return render(request,'front/login.html')
 
 def investor_profile_popup(request,pk):
 	investor = Investor.objects.get(id=pk)
-	return render(request,'startup/investor_profile_popup.html',{'investor':investor})
+	return render(request,'startup/investor_profile_popup.html',{'investor':investor,'accepted':"true"})
 
 @csrf_exempt
 def apply_incubation(request):
@@ -173,7 +175,7 @@ def apply_incubation(request):
 		except:
 			return HttpResponse("User does not have a startup")
 
-		return render(request,'startup/apply_incubation.html',{'startup':startup})
+		return render(request,'startup/apply_incubation.html',{'startup':startup,'accepted':"true"})
 	else:
 		try:
 			startup = Startup.objects.get(user__user_id=request.user.id)
@@ -210,7 +212,7 @@ def apply_fund(request):
 		except:
 			return HttpResponse("User does not have a startup")
 
-		return render(request,'startup/apply_fund.html',{'startup':startup})
+		return render(request,'startup/apply_fund.html',{'startup':startup,'accepted':"true"})
 	else:
 		try:
 			startup = Startup.objects.get(user__user_id=request.user.id)
@@ -289,7 +291,10 @@ def show_connections(request):
 	startups_left = x[:left]
 	startups_right = x[left:]
 	startup = Startup.objects.get(user__user_id=request.user.id)
-	return render(request, 'startup/myconnections.html',{'startup':startup,'startups_left':startups_left,'startups_right':startups_right})
+	return render(request, 'startup/myconnections.html',{'startup':startup,
+														 'startups_left':startups_left,
+														 'startups_right':startups_right,
+														 'accepted':"true"})
 
 
 def show_pending_connections(request):
@@ -318,7 +323,10 @@ def show_pending_connections(request):
 	startups_left = x[:left]
 	startups_right = x[left:]
 	startup = Startup.objects.get(user__user_id=request.user.id)
-	return render(request, 'startup/mypendingconnections.html',{'startup':startup,'startups_left':startups_left,'startups_right':startups_right})
+	return render(request, 'startup/mypendingconnections.html',{'startup':startup,
+																'startups_left':startups_left,
+																'startups_right':startups_right,
+																'accepted':"true"})
 
 def accept_connection(request,pk):
 	print("das")
@@ -355,20 +363,23 @@ def my_videos(request):
 		request.session["message"] = "No videos yet !"
 		return redirect('/startup')
 	return render(request,'startup/videolist.html',{'videos':videos,
-													'startup':startup})
+													'startup':startup,
+													'accepted':"true"})
 
 @csrf_exempt
 def generate_ticket(request):
 	startup = Startup.objects.get(user__user_id=request.user.id)
 	if request.method == "GET":
-		return render(request,'startup/createtickets.html',{'startup':startup,'msg':''})
+		return render(request,'startup/createtickets.html',{'startup':startup,'msg':'','accepted':"true"})
 	else:
 		ticket = Tickets()
 		ticket.title = request.POST['title']
 		ticket.issue = request.POST['issue']
 		ticket.startup=startup
 		ticket.save()
-		return render(request,'startup/createtickets.html',{'startup':startup,'msg':'sent'})
+		return render(request,'startup/createtickets.html',{'startup':startup,
+															'msg':'sent',
+															'accepted':"true"})
 
 @csrf_exempt
 def show_bookings(request):
@@ -410,7 +421,11 @@ def show_bookings(request):
 		x_left = x[store:]
 		x_right = x[:store]
 		x = x_left+x_right
-		return render(request,'startup/booking.html',{'bookings':x,'startup':startup,'run':run,'store':store})
+		return render(request,'startup/booking.html',{'bookings':x,
+													  'startup':startup,
+													  'run':run,
+													  'store':store,
+													  'accepted':"true"})
 
 @csrf_exempt
 def select_booking(request):
@@ -444,7 +459,8 @@ def upload_documents(request):
 	
 	if request.method =="GET":
 		return render(request, 'startup/uploaddocs.html',{'errormessage':'',
-														  'startup':startup})
+														  'startup':startup,
+														  'accepted':"true"})
 	else:
 		startup = Startup.objects.get(user__user_id=request.user.id)
 		document = Documents()
@@ -464,7 +480,7 @@ def my_documents(request):
 		msg = request.session.get('message')
 		del request.session['message']
 		print(msg)
-	docs = Documents.objects.filter(startup__user__user_id=request.user.id,typ="startup",category="document")
+	docs = Documents.objects.filter(startup__user__user_id=request.user.id,category="document")
 	startup = Startup.objects.get(user__user_id=request.user.id)
 	left = int(len(docs)/2)
 	
@@ -474,4 +490,5 @@ def my_documents(request):
 	return render(request,"startup/my_documents.html",{'startup':startup,
 												  	   'docs_left':docs_left,
 												  	   'docs_right':docs_right,
-												  	   'msg':msg})
+												  	   'msg':msg,
+												  	   'accepted':"true"})
