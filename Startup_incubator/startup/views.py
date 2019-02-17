@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from investor.models import Investor, Connections
 from recommendations.train import train_model
 from recommendations.test import predict
-
+import operator
 from .models import Startup,Tickets,Bookings
 
 from .models import Startup
@@ -39,7 +39,27 @@ def dashboard(request):
 		if len(incubation_request) > 0:
 			if incubation_request[0].accept :
 				accepted ="true"
-		return render(request,"startup/dashboard.html",{'startup':startup,'msg':msg,'accepted':accepted})
+
+		startup = startup.description
+		
+		investors = []
+		for i in Investor.objects.all():
+			temp = [i.name,i.description]
+			investors.append(temp)
+		print("before predict")
+		result = predict(investors,startup)
+
+		result = sorted(result, key=operator.itemgetter(1))
+		#result = result[::-1]
+
+		print("result",result)
+		recommend = Investor.objects.all()[0]
+		investor = Investor.objects.filter(name=result[0][1])
+		if len(investor) > 0:
+			recommend = investor[0]
+		
+		return render(request,"startup/dashboard.html",{'startup':startup,'msg':msg,'accepted':accepted,
+														'recommend':recommend})
 	else:
 		return redirect('/login')
 	
@@ -62,18 +82,26 @@ def get_recommendations(request):
 
 def train(request):
 	print("Training the model ..... wait.....")
-	investors = Investor.objects.all()
 
-	file = open("recommendations/training_data.txt","w")  
-
-	for i in investors:
-		file.write(i.description)
-		file.write("\n\n\n####\n\n\n")
-	file.close()
-	print("created training_data.txt file")
 	train_model()
 
 	return HttpResponse('trained successfully !')
+
+
+def test(request):
+	
+	investors = []
+	for i in Investor.objects.all():
+		temp = [i.name,i.description]
+		investors.append(temp)
+	print("Investor ", investors)
+	startup = "my startup gives tech solutions to other startups"
+	# startup = "my deals cool bikes  with startup provides software development Site machine learning and cloud docker systems."
+	# investors = [['jain_softwares'," Software Development "],
+	# 			['bikes',"my startup deals with cool bikes."]
+	# 			]
+				
+	return predict(investors,startup)
 
 
 

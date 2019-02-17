@@ -17,7 +17,10 @@ from django.template.loader import get_template
 from xhtml2pdf	import pisa
 
 def index(request):
-	mentor = Mentor.objects.get(user__user_id=request.user.id)
+	try:
+		mentor = Mentor.objects.get(user__user_id=request.user.id)
+	except:
+		print("error")
 	msg = ""
 	if request.session.get('message', False):
 		msg = request.session.get('message')
