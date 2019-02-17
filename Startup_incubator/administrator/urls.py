@@ -8,7 +8,6 @@ urlpatterns = [
     url(r'^add_investor$', views.add_investor, name='add_investor'),
 
     url(r'^show_startups$', views.show_startups, name='show_startups'),
-    url(r'^show_funded_startups$', views.show_funded_startups, name='show_funded_startups'),
     url(r'^show_investors$', views.show_investors, name='show_investors'),
     url(r'^show_mentors$', views.show_mentors, name='show_mentors'),
     #url(r'^test$', views.test),
@@ -21,12 +20,13 @@ urlpatterns = [
     url(r'^accept_incubation/(?P<pk>[0-9]+)$',views.accept_incubation,name='accept_incubation'),
     url(r'^reject_incubation/(?P<pk>[0-9]+)$',views.reject_incubation,name='reject_incubation'),
     url(r'^show_ticket/(?P<pk>[0-9]+)$',views.show_ticket,name='show_ticket'),
-    url(r'^set_milestone/(?P<pk>[0-9]+)$',views.set_milestone,name='set_milestone'),
-    url(r'^show_milestone/(?P<pk>[0-9]+)$',views.show_milestone,name='show_milestone'),
-    url(r'^complete_milestone/(?P<pk>[0-9]+)$',views.complete_milestone,name='complete_milestone'),
     url(r'^solve_ticket/(?P<pk>[0-9]+)$',views.solve_ticket,name='solve_ticket'),
     url(r'^assign_mentor$', views.assign_mentor, name='assign_mentor'),
     url(r'^reviews$', views.reviews, name='reviews'),
+    url(r'^set_milestone/(?P<pk>[0-9]+)$',views.set_milestone,name='set_milestone'),
+    url(r'^show_milestone/(?P<pk>[0-9]+)$',views.show_milestone,name='show_milestone'),
+    url(r'^complete_milestone/(?P<pk>[0-9]+)$',views.complete_milestone,name='complete_milestone'),
+    
     
 
 ]

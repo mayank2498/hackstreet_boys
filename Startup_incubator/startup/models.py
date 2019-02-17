@@ -27,8 +27,9 @@ class Startup(models.Model):
 	image = models.FileField(upload_to='profile_photos/',default='profile_photos/default.jpg')
 	dippno = models.CharField(max_length=100,blank=True,null=True)
 	cat = models.CharField(max_length=100,blank=True,null=True)
-	experience = models.CharField(max_length=100,null=True)
-	no_of_employees = models.CharField(max_length=100,null=True)
+	experience = models.CharField(max_length=100,null=True,default=3)
+	turnover = models.CharField(max_length=100,null=True,default=10)
+	no_of_employees = models.CharField(max_length=100,null=True,default=100)
 	admin_funded = models.BooleanField(default=False)
 
 	#recommended_investors = models.ManyToManyField(Investor,blank=True)

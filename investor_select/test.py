@@ -3,9 +3,10 @@ import numpy
 
 startup = "my startup sells cement online. cement is essential. home-building solutions"
 
-investors = [ ['Ambuja Cements' , "Ambuja Cements Ltd is India's foremost cement company known for its hassle-free, home-building solutions. Unique products tailor-made for Indian climatic conditions, sustainable operations and initiatives that advance the company's philosophy of contributing to the larger good of the society, have made it the most trusted cement brand in India" ] ,
+investors = [ 
+              ['Ambuja Cements' , "Ambuja Cements Ltd is India's foremost cement company known for its hassle-free, home-building solutions. Unique products tailor-made for Indian climatic conditions, sustainable operations and initiatives that advance the company's philosophy of contributing to the larger good of the society, have made it the most trusted cement brand in India" ] ,
               ['NTPC Limited', "NTPC limited., is an Indian Public Sector Undertaking, engaged in the business of generation of electricity and allied activities. It is a company incorporated under the Companies Act 1956 and is promoted by the Government of India. The headquarters of the company is situated at New Delhi" ] ,
-              ['chutiya company',"its a chutiya company shit."]
+              ['chutiya company',"its a chutiya shit. blockchain technology startup. boring company "]
             ]
 
 

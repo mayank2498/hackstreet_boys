@@ -7,7 +7,7 @@ from recommendations.test import predict
 from .models import Startup,Tickets,Bookings
 
 from .models import Startup
-from administrator.models import Fund,Incubation,AssignMentor,Documents,Milestones
+from administrator.models import Fund,Incubation,AssignMentor,Documents
 
 from .models import Startup,Tickets
 
@@ -34,8 +34,12 @@ def dashboard(request):
 			msg = request.session.get('message')
 			del request.session['message']
 			print(msg)
-
-		return render(request,"startup/dashboard.html",{'startup':startup,'msg':msg})
+		incubation_request = Incubation.objects.filter(startup__user__user_id=request.user.id)
+		accepted = "false"
+		if len(incubation_request) > 0:
+			if incubation_request[0].accept :
+				accepted ="true"
+		return render(request,"startup/dashboard.html",{'startup':startup,'msg':msg,'accepted':accepted})
 	else:
 		return redirect('/login')
 	
@@ -373,7 +377,7 @@ def show_bookings(request):
 		today = date.today()
 		print(today)
 		bookings = Bookings.objects.filter(date__gt=today).order_by('date')
-		store = datetime.today().weekday()+1
+		store = datetime.today().weekday()
 		print("sd")
 		for p in bookings:
 			p.day = calendar.day_name[p.date.weekday()]
@@ -454,8 +458,6 @@ def upload_documents(request):
 		request.session["message"] = "Document added successfully !"
 		return redirect('/startup/my_documents')
 
-
-
 def show_milestones(request):
 	print("asd")
 	startup = Startup.objects.get(user__user_id=request.user.id)
@@ -481,7 +483,7 @@ def complete_milestone(request,pk):
 	print(milestone.started)
 	return redirect("/startup/show_milestones")
 
-	
+
 def my_documents(request):
 	msg = ""
 	if request.session.get('message', False):
@@ -498,6 +500,7 @@ def my_documents(request):
 	return render(request,"startup/my_documents.html",{'startup':startup,
 												  	   'docs_left':docs_left,
 												  	   'docs_right':docs_right,
+
 												  	   'msg':msg})
 
 
@@ -572,5 +575,6 @@ def mentor_review(request,pk):
 		review.save()
 		request.session['message'] = "your review is saved. Thanks for giving the valuable feedaback."
 		return redirect('/startup/dashboard')
+
 
 

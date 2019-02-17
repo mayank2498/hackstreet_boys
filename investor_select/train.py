@@ -27,8 +27,4 @@ model = gensim.models.Word2Vec(documents,
 
 model.train(documents, total_examples=len(documents), epochs=100)
 
-
-w1 = "cement"
-model.wv.most_similar(positive=w1)
-
-model.save("1_word2vec.model")
+model.save("word2vec.model")

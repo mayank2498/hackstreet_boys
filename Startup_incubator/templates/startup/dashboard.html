@@ -33,7 +33,7 @@
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
               <i class="fa fa-align-right"></i>
             </button>
-            <a class="navbar-brand" href="#">my<span class="main-color">Dashboard</span></a>
+            <a class="navbar-brand" href="#">My<span class="main-color">Dashboard</span></a>
           </div>
           {% include "startup/header.html" %}
         </div>
@@ -44,12 +44,16 @@
             <div class="col-md-12">
               <div class="content">
                 <h2>Welcome to Dashboard</h2>
+                {% if accepted == "false" %}
+                  <h4><b>Apply for Incubation to avail services from 36Inc</b></h4>
+                {% endif %}
                 <p></p>
               </div>
             </div>
           </div>
         </div>
       </div>
+    {% if accepted == "true" %}
       <section class="statistics">
         <div class="container-fluid">
           <div class="row">
@@ -57,8 +61,8 @@
               <div class="box">
                 <i class="fa fa-envelope fa-fw bg-primary"></i>
                 <div class="info">
-                  <h3>2</h3> <span>Mentors</span>
-                  <p></p>
+                    <h3>5</h3> <span>Investors</span>
+                                 <p></p>
                 </div>
               </div>
             </div>
@@ -66,8 +70,9 @@
               <div class="box">
                 <i class="fa fa-file fa-fw danger"></i>
                 <div class="info">
-                  <h3>5</h3> <span>Investors</span>
-                  <p>Lorem ipsum dolor sit amet</p>
+                   <h3>6</h3> <span>Tickets Raised</span>
+              
+                  <p></p>
                 </div>
               </div>
             </div>
@@ -75,7 +80,9 @@
               <div class="box">
                 <i class="fa fa-users fa-fw success"></i>
                 <div class="info">
-                  <h3></h3> <span></span>
+                     <h3>4</h3> <span>Mentors</span>
+
+                   
                   <p></p>
                 </div>
               </div>
@@ -100,7 +107,7 @@
           </div>
         </div>
       </section>
-
+<!-- 
         <section class='statis text-center'>
           <div class="container-fluid">
             <div class="row">
@@ -134,8 +141,8 @@
               </div>
             </div>
           </div>
-        </section>
-        <section class="chrt3">
+        </section> -->
+<!--         <section class="chrt3">
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-9">
@@ -149,8 +156,10 @@
               </div>
             </div>
           </div>
-        </section>
+        </section> -->
       </section>
+      {% endif %}
+
       <script src='http://code.jquery.com/jquery-latest.js'></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>

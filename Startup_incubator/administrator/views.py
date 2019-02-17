@@ -1,5 +1,8 @@
 from django.shortcuts import render
+
 from .models import Incubation,Fund,Updates,Documents,Milestones,Reviews
+
+from .models import Incubation,Fund,Updates,Documents
 from django.shortcuts import render
 from startup.models import Startup,Founder,Tickets
 from login.models import Type
@@ -15,7 +18,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 import datetime
-from datetime import datetime
 from administrator.models import AssignMentor
 
 # just a helper function. it can be reused for getting admin names
@@ -131,20 +133,6 @@ def show_startups(request):
 	return render(request, 'administrator/showstartups.html',{'startups_left':startups_left,
 															  'startups_right':startups_right,
 															  	'admin':get_admin(request.user.id)})
-def show_funded_startups(request):
-	if not request.user.is_authenticated() :
-		return redirect('/login')
-	
-	startups = Startup.objects.filter(admin_funded=True)
-	size = len(startups)
-	left = int(size/2)
-
-	startups_right = startups[:left]
-	startups_left = startups[left:]
-
-	return render(request, 'administrator/showfundedstartups.html',{'startups_left':startups_left,
-															  'startups_right':startups_right,
-															  	'admin':get_admin(request.user.id),'msg':''})
 
 
 def show_investors(request):
@@ -352,6 +340,7 @@ def assign_mentor(request):
 
 		return render(request,'front/login.html')
 
+
 @csrf_exempt
 def set_milestone(request,pk):
 	if request.method == "GET":
@@ -394,3 +383,4 @@ def complete_milestone(request,pk):
 def reviews(request):
 	reviews = Reviews.objects.all()
 	return render(request,'administrator/reviews.html',{'reviews':reviews})
+

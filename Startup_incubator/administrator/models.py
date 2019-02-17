@@ -41,6 +41,7 @@ class AssignMentor(models.Model):
 	months = models.CharField(max_length=100,null=True)
 	mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE)
 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
+
 	date = models.DateField(default=datetime.date.today)
 
 class Milestones(models.Model):
@@ -63,4 +64,6 @@ class Reviews(models.Model):
 	review = models.CharField(max_length=1000,null=True)
 	description = models.CharField(max_length=1000,null=True)
 
+
+	date = models.DateField(default=datetime.date.today)
 
