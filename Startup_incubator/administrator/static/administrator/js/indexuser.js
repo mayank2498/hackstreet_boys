@@ -91,18 +91,18 @@ $(function () {
   var myChart = new Chart(chart, {
     type: 'bar',
     data: {
-      labels: ["January", "February", "March", "April", "May", 'Jul'],
+      labels: ["October","November","December","January", "February"],
       datasets: [{
-        label: "Lost",
+        label: "Funded",
         fill: false,
         lineTension: 0,
-        data: [45, 25, 40, 20, 45, 20],
+        data: [40, 20, 40, 20, 43, 22],
         pointBorderColor: "#4bc0c0",
         borderColor: '#4bc0c0',
         borderWidth: 2,
         showLine: true,
       }, {
-        label: "Succes",
+        label: "Incubated",
         fill: false,
         lineTension: 0,
         startAngle: 2,

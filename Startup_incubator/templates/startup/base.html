@@ -9,16 +9,13 @@
     <aside class="side-nav" id="show-side-navigation1">
       <i class="fa fa-bars close-aside hidden-sm hidden-md hidden-lg" data-close="show-side-navigation1"></i>
       <div class="heading">
-       <img  src="{{ startup.image.url }}" alt="">
+       <img  style="border:2px solid yellow;height:18%;width:25%;" src="{{ startup.image.url }}" alt="">
         <div class="info">
           <h3><b>Start Up</b></h3>
           <h3><a href="/startup">{{ startup.name }}</a></h3>
           <p>{{ startup.cat }}</p>
 
         </div>
-      </div>
-      <div class="search">
-        <input type="text" placeholder="Type here"><i class="fa fa-search"></i>
       </div>
       {% if accepted == "false" %}
       <ul class="categories">
@@ -46,11 +43,14 @@
     <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/startup/show_pending_connections">My Pending Connections</a></li>
     <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="{% url 'startup:my_videos' %}">My Videos</a></li>
     <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="{% url 'startup:my_documents' %}">My Documents</a></li>
+    <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="{% url 'startup:mytickets' %}">My Tickets</a></li>
+    
      <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="#">Milestones</a></li>
      <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/rent/pay_rent"> Pay Rent</a></li>
     <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/startup/apply_incubation">Apply For Incubation</a></li>
     <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/startup/apply_fund">Apply For Fund</a></li>
     <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/startup/generate_ticket">Generate Ticket</a></li>
+    <li><i class="fa fa-home fa-fw" aria-hidden="true"></i><a href="/startup/mytickets">My Ticket</a></li>
       </ul>
       {% endif %}
     </aside>

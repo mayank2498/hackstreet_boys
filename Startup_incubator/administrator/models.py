@@ -41,4 +41,29 @@ class AssignMentor(models.Model):
 	months = models.CharField(max_length=100,null=True)
 	mentor = models.ForeignKey(Mentor,on_delete=models.CASCADE)
 	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
+
 	date = models.DateField(default=datetime.date.today)
+
+class Milestones(models.Model):
+	startup = models.ForeignKey(Startup,null=True,default=1,on_delete=models.CASCADE,blank=True)
+	Date = models.DateField(default=datetime.date.today)
+	title = models.CharField(null=True,max_length=1000)
+	description = models.CharField(null=True,max_length=1000)
+	started = models.BooleanField(default=False)
+	deadline = models.DateField(null=True,blank=True)
+	started_date = models.DateTimeField(null=True,blank=True)
+	completed_startup = models.BooleanField(default=False)
+	completed_startup_date = models.DateTimeField(null=True,blank=True)
+	completed_admin = models.BooleanField(default=False)
+	completed_admin_date = models.DateTimeField(null=True,blank=True)
+
+class Reviews(models.Model):
+	mentor = models.ForeignKey(Mentor,null=True,default=1,on_delete=models.CASCADE,blank=True)
+	startup = models.ForeignKey(Startup,null=True,default=1,on_delete=models.CASCADE,blank=True)
+	by_startup = models.BooleanField(default=False)
+	review = models.CharField(max_length=1000,null=True)
+	description = models.CharField(max_length=1000,null=True)
+
+
+	date = models.DateField(default=datetime.date.today)
+

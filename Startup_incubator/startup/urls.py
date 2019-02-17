@@ -24,11 +24,21 @@ urlpatterns = [
     url(r'^generate_ticket/$',views.generate_ticket,name='generate_ticket'),
     url(r'^select_booking/$',views.select_booking,name='select_booking'),   
     url(r'^show_bookings/$',views.show_bookings,name='show_bookings'),
+
+    url(r'^my_videos/$',views.my_videos,name='my_videos'),
+
+    url(r'^show_milestones/$',views.show_milestones,name='show_milestones'),
+    url(r'^mentor_review/(?P<pk>[0-9]+)$',views.mentor_review,name='mentor_review'),
+    url(r'^my_documents/$',views.my_documents,name='my_documents'),
+    url(r'^notifications/$',views.notifications,name='notifications'),
+    url(r'^see_ticket/(?P<pk>[0-9]+)$',views.see_ticket,name='see_ticket'),
+    url(r'^mytickets/$',views.mytickets,name='mytickets'),
     
 
     
     url(r'^my_videos/$',views.my_videos,name='my_videos'),
     url(r'^my_documents/$',views.my_documents,name='my_documents'),
+
 
 
     url(r'^generate_ticket/$',views.generate_ticket,name='generate_ticket'),

@@ -36,19 +36,22 @@
               <div class="box">
                 
                 {% for m in assigns_left %} 
-                    <a href="{% url 'startup:startup_popup' m.startup.id%}" >
+                    
                       <div class="admin">
                         <div class="img">
                           <img class="img-responsive" src="{{m.startup.image.url}}">
                         </div>
                         <div class="info">
+                          <a href="{% url 'startup:startup_popup' m.startup.id%}" >
                           <h3>{{ m.startup.name }}</h3>
                           <p>{{ m.startup.description|slice:":100" }}</p>
                           <p>Date Assigned : {{m.date}}</p>
                           <p>Duration : {{m.months}} months</p>
+                        </a>
+                         <a href="{% url 'mentor:startup_review' m.id%}"><button class="btn btn primary">Review</button></a>
                         </div>
                       </div>
-                    </a>
+                    
                 {% endfor %}
                     
               </div>
@@ -56,17 +59,22 @@
             <div class="col-md-6">
               <div class="box">
                 {% for m in assigns_right %} 
-                    <a href="{% url 'startup:startup_popup' m.id%}" ">
+                    
                       <div class="admin">
                         <div class="img">
+                          
                           <img class="img-responsive" src="{{m.image.url}}" alt="admin">
                         </div>
                         <div class="info">
+                          <a href="{% url 'startup:startup_popup' m.id%}" ">
                           <h3>{{ m.name }}</h3>
                           <p>{{ m.description|slice:":100" }}</p>
+                          </a>
+                          <a href="{% url 'mentor:startup_review' m.id%}"><button class="btn btn primary">Review</button></a>
                         </div>
+                        
                       </div>
-                    </a>
+                    
                 {% endfor %}
               </div>
             </div>

@@ -37,24 +37,25 @@
                 
                 {% for m in mentors_left %} 
 
-                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
+                    
                   <div class="admin">
                     <div class="img">
                       <img class="img-responsive" style="height:85px;width:85px;margin-top: 25%;"  src="{{m.image}}" alt="admin">
                     </div>
                     <div class="info">
+                      <a href="{% url 'startup:mentor_popup' m.id%}" ">
                       <h3 style="color:white;">{{ m.name }}</h3>
 
                       <p>{{ m.description|slice:":80" }}</p>
                         <p>{{ m.date }}</p>
                         <p>Duration - {{ m.months }} months</p>
-                
-
+                </a>
+                       <a href="{% url 'startup:mentor_review' m.id %}"> <button class="btn btn-primary">Review</button></a>
                     </div>
 
 
                  </div>
-                </a>
+                  
                 
                 {% endfor %}
                   
@@ -63,19 +64,20 @@
             <div class="col-md-6">
               <div class="box">
                 {% for m in mentors_right %} 
-                    <a href="{% url 'startup:mentor_popup' m.id%}" ">
+                    
                   <div class="admin">
                     <div class="img">
                       <img class="img-responsive" style="height:85px;width:85px;margin-top: 25%;"  src="{{m.image}}" alt="admin">
                     </div>
                     <div class="info">
+                      <a href="{% url 'startup:mentor_popup' m.id%}" ">
                       <h3 style="color:white;">{{ m.name }}</h3>
 
                       <p>{{ m.description|slice:":80" }}</p>
                         <p>{{ m.date }}</p>
                         <p>Duration - {{ m.months }} months</p>
-                
-
+                </a>
+                         <a href="{% url 'startup:mentor_review' m.id %}"> <button class="btn btn-primary">Review</button></a>
                     </div>
 
 
