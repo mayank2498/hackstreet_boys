@@ -18,7 +18,7 @@ class Updates(models.Model):
 	schedule = models.DateTimeField(default=datetime.datetime.now())
 	title = models.CharField(max_length=1000,null=True)
 	date = models.DateTimeField(default=datetime.datetime.now(),blank=True)
-
+	image = models.FileField(upload_to='event_images/',default="http://nitrr.ac.in/images/nitrr.gif")
 
 class Fund(models.Model):
 	typ = models.CharField(max_length=100,null=True)
