@@ -55,3 +55,12 @@ class Milestones(models.Model):
 	completed_startup_date = models.DateTimeField(null=True,blank=True)
 	completed_admin = models.BooleanField(default=False)
 	completed_admin_date = models.DateTimeField(null=True,blank=True)
+
+class Reviews(models.Model):
+	mentor = models.ForeignKey(Mentor,null=True,default=1,on_delete=models.CASCADE,blank=True)
+	startup = models.ForeignKey(Startup,null=True,default=1,on_delete=models.CASCADE,blank=True)
+	by_startup = models.BooleanField(default=False)
+	review = models.CharField(max_length=1000,null=True)
+	description = models.CharField(max_length=1000,null=True)
+
+

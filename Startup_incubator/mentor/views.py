@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Mentor
 from login.models import Type
 from administrator.models import AssignMentor,Documents
+from administrator.models import Reviews
 
 
 def index(request):
@@ -84,4 +85,22 @@ def share_videos(request):
 		request.session['message'] = "Shared the videos to your startups !"
 		return redirect('/mentor')
 		print("saved !")
+
+@csrf_exempt
+def startup_review(request,pk):
+	if request.method == "GET":
+		startup = Startup.objects.get(id=pk)
+		mentor = Mentor.objects.get(user__user_id=request.user.id)
+		return render(request,'mentor/startupreview.html',{'startup':startup,'mentor':mentor})
+	else:
+		review = Reviews()
+		review.startup_d = pk
+		mentor = Mentor.objects.get(user__user_id=request.user.id)
+		review.mentor_id = pk
+		review.by_startup = 0
+		review.review = request.POST['title']
+		review.description = request.POST['desc']
+		review.save()
+		request.session['message'] = "your review is saved. Thanks for giving the valuable feedaback."
+		return redirect('/mentor')
 

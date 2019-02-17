@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^complete_milestone/(?P<pk>[0-9]+)$',views.complete_milestone,name='complete_milestone'),
     url(r'^solve_ticket/(?P<pk>[0-9]+)$',views.solve_ticket,name='solve_ticket'),
     url(r'^assign_mentor$', views.assign_mentor, name='assign_mentor'),
+    url(r'^reviews$', views.reviews, name='reviews'),
     
 
 ]

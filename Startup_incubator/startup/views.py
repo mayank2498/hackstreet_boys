@@ -11,8 +11,8 @@ from administrator.models import Fund,Incubation,AssignMentor,Documents,Mileston
 
 from .models import Startup,Tickets
 
-from administrator.models import Fund,Incubation
-
+from administrator.models import Fund,Incubation,Reviews
+from rent.models import Rent
 from mentor.models import Mentor
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date,datetime
@@ -499,4 +499,78 @@ def my_documents(request):
 												  	   'docs_left':docs_left,
 												  	   'docs_right':docs_right,
 												  	   'msg':msg})
+
+
+def notifications(request):
+	duration = Rent.objects.filter(startup__user__user_id=request.user.id)[0]
+	total =  Rent.objects.filter(startup__user__user_id=request.user.id)
+	x = {}
+	ans = 0
+	for t in total:
+		if t.paid == '1':
+			ans = ans+1
+	x["due"] = str((int(duration.duration)-ans)*3000)
+	try:
+		inc = Incubation.objects.get(startup__user__user_id=request.user.id)
+		if inc.accept == 1:
+			x["incubation"] = "you request for incubation has been accepted"
+	except:
+		pass
+	try:
+		fun = Fund.objects.get(startup__user__user_id=request.user.id)
+		if inc.accept == 1:
+			x["fund"] = "you request for fund has been accepted from 36 INC"
+	except:
+		pass
+	try:
+		mentor = AssignMentor.objects.get(startup__user__user_id=request.user.id)
+		months = mentor.months
+		name = mentor.mentor.name
+		x["mentor"] =  name +" has been assigned to you for "+ months+" months"
+	except:
+		pass
+	print(x)
+	print(len(x))
+
+	return HttpResponse("test")		
+
+
+
+
+
+def mytickets(request):
+	tickets = Tickets.objects.filter(startup__user__user_id=request.user.id)
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	left = int(len(tickets)/2)
+	
+	
+	tickets_left = tickets[left:]
+	tickets_right = tickets[:left]
+
+	return render(request,"startup/showtickets.html",{'startup':startup,'tickets_left':tickets_left,'tickets_right':tickets_right})
+
+
+def see_ticket(request,pk):
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	ticket = Tickets.objects.get(id=pk)
+	return render(request,'startup/ticketdetails.html',{'startup':startup,'ticket':ticket})
+
+@csrf_exempt
+def mentor_review(request,pk):
+	if request.method == "GET":
+		mentor = Mentor.objects.get(id=pk)
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		return render(request,'startup/mentorreview.html',{'startup':startup,'mentor':mentor})
+	else:
+		review = Reviews()
+		review.mentor_id = pk
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		review.startup_id = startup.id
+		review.by_startup = 1
+		review.review = request.POST['title']
+		review.description = request.POST['desc']
+		review.save()
+		request.session['message'] = "your review is saved. Thanks for giving the valuable feedaback."
+		return redirect('/startup/dashboard')
+
 

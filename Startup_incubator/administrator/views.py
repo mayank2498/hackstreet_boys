@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Incubation,Fund,Updates,Documents,Milestones
+from .models import Incubation,Fund,Updates,Documents,Milestones,Reviews
 from django.shortcuts import render
 from startup.models import Startup,Founder,Tickets
 from login.models import Type
@@ -390,3 +390,7 @@ def complete_milestone(request,pk):
 	milestone.save()
 	
 	return redirect("/administrator/show_funded_startups")
+
+def reviews(request):
+	reviews = Reviews.objects.all()
+	return render(request,'administrator/reviews.html',{'reviews':reviews})
