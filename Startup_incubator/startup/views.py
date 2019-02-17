@@ -7,7 +7,7 @@ from recommendations.test import predict
 from .models import Startup,Tickets,Bookings
 
 from .models import Startup
-from administrator.models import Fund,Incubation,AssignMentor,Documents,Milestones
+from administrator.models import Fund,Incubation,AssignMentor,Documents
 
 from .models import Startup,Tickets
 
@@ -34,8 +34,12 @@ def dashboard(request):
 			msg = request.session.get('message')
 			del request.session['message']
 			print(msg)
-
-		return render(request,"startup/dashboard.html",{'startup':startup,'msg':msg})
+		incubation_request = Incubation.objects.filter(startup__user__user_id=request.user.id)
+		accepted = "false"
+		if len(incubation_request) > 0:
+			if incubation_request[0].accept :
+				accepted ="true"
+		return render(request,"startup/dashboard.html",{'startup':startup,'msg':msg,'accepted':accepted})
 	else:
 		return redirect('/login')
 	
@@ -454,34 +458,6 @@ def upload_documents(request):
 		request.session["message"] = "Document added successfully !"
 		return redirect('/startup/my_documents')
 
-
-
-def show_milestones(request):
-	print("asd")
-	startup = Startup.objects.get(user__user_id=request.user.id)
-	milestones = Milestones.objects.filter(startup_id=startup.id)
-	
-	for milestone in milestones:
-		milestone.deadline = datetime.strptime(str(milestone.deadline), '%Y-%m-%d').strftime('%d/%m/%Y')
-		print(milestone.deadline)
-	num = len(milestones)/2
-	return render(request,"startup/timeline.html",{'startup':startup,'milestones':milestones,'msg':''})
-
-def complete_milestone(request,pk):
-	print("tets")
-	startup = Startup.objects.get(user__user_id=request.user.id)
-
-	milestone = Milestones.objects.get(id=pk)
-	print(milestone)
-	print("adasdasdasdas")
-	milestone.completed_startup	 = 1
-	milestone.startup_id = startup.id
-	milestone.startup_date = datetime.now()
-	milestone.save()
-	print(milestone.started)
-	return redirect("/startup/show_milestones")
-
-	
 def my_documents(request):
 	msg = ""
 	if request.session.get('message', False):
@@ -499,4 +475,3 @@ def my_documents(request):
 												  	   'docs_left':docs_left,
 												  	   'docs_right':docs_right,
 												  	   'msg':msg})
-

@@ -20,21 +20,18 @@ urlpatterns = [
     url(r'^show_pending_connections$', views.show_pending_connections, name='show_pending_connections'),
     url(r'^accept_connection/(?P<pk>[0-9]+)$',views.accept_connection,name='accept_connection'),
     url(r'^reject_connection/(?P<pk>[0-9]+)$',views.reject_connection,name='reject_connection'),
-    url(r'^complete_milestone/(?P<pk>[0-9]+)$',views.complete_milestone,name='complete_milestone'),
 
     url(r'^generate_ticket/$',views.generate_ticket,name='generate_ticket'),
     url(r'^select_booking/$',views.select_booking,name='select_booking'),   
     url(r'^show_bookings/$',views.show_bookings,name='show_bookings'),
+    
+
+    
     url(r'^my_videos/$',views.my_videos,name='my_videos'),
-
-    url(r'^show_milestones/$',views.show_milestones,name='show_milestones'),
-
     url(r'^my_documents/$',views.my_documents,name='my_documents'),
-
 
 
     url(r'^generate_ticket/$',views.generate_ticket,name='generate_ticket'),
     url(r'^upload_documents$', views.upload_documents, name='upload_documents'),
-
 
 ]
