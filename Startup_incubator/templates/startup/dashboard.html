@@ -1,20 +1,5 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" >
-
-<head>
-  <meta charset="UTF-8">
-  <title>Dashboard </title>
-
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
-
-      <link rel="stylesheet" href="{% static "startup/css/styleuser.css" %}">
-
-  
-</head>
-
-<body>
-
   <html lang="en">
   <head>
     <meta charset="UTF-8">
@@ -45,7 +30,7 @@
               <div class="content">
                 <h2>Welcome to Dashboard</h2>
                 {% if accepted == "false" %}
-                  <h4><b>Apply for Incubation to avail services from 36Inc</b></h4>
+                <h4><b>Apply for Incubation to avail services from 36Inc</b></h4>
                 {% endif %}
                 <p></p>
               </div>
@@ -53,7 +38,7 @@
           </div>
         </div>
       </div>
-    {% if accepted == "true" %}
+      {% if accepted == "true" %}
       <section class="statistics">
         <div class="container-fluid">
           <div class="row">
@@ -61,8 +46,8 @@
               <div class="box">
                 <i class="fa fa-envelope fa-fw bg-primary"></i>
                 <div class="info">
-                    <h3>5</h3> <span>Investors</span>
-                                 <p></p>
+                  <h3>5</h3> <span>Investors</span>
+                  <p></p>
                 </div>
               </div>
             </div>
@@ -70,43 +55,43 @@
               <div class="box">
                 <i class="fa fa-file fa-fw danger"></i>
                 <div class="info">
-                   <h3>6</h3> <span>Tickets Raised</span>
-              
-                  <p></p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="box">
-                <i class="fa fa-users fa-fw success"></i>
-                <div class="info">
-                     <h3>4</h3> <span>Mentors</span>
+                 <h3>6</h3> <span>Tickets Raised</span>
 
-                   
-                  <p></p>
-                </div>
-              </div>
-            </div>
+                 <p></p>
+               </div>
+             </div>
+           </div>
+           <div class="col-md-4">
+            <div class="box">
+              <i class="fa fa-users fa-fw success"></i>
+              <div class="info">
+               <h3>4</h3> <span>Mentors</span>
+
+
+               <p></p>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+   <section class="charts">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="chart-container">
+            <h3>Chart</h3>
+            <canvas id="myChart"></canvas>
           </div>
         </div>
-      </section>
-      <section class="charts">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="chart-container">
-                <h3>Chart</h3>
-                <canvas id="myChart"></canvas>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="chart-container">
-                <h3>Recommended Investors</h3>
-              </div>
-            </div>
+        <div class="col-md-6">
+          <div class="chart-container">
+            <h3>Recommended Investors</h3>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </section>
 <!-- 
         <section class='statis text-center'>
           <div class="container-fluid">
@@ -159,28 +144,28 @@
         </section> -->
       </section>
       {% endif %}
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script src='http://code.jquery.com/jquery-latest.js'></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.js"></script>
       <script src="{% static "startup/js/main.js" %} "></script>
-      </body>
+    </body>
     </html>
     
     <script type="text/javascript">
-     
+
       var x = '{{msg}}' ;
       if (x.length > 2){
         swal('{{ msg }}');
       } 
       
-      </script>
+    </script>
 
     <script  src="{% static "startup/js/indexuser.js" %} "></script>
 
 
 
 
-</body>
+  </body>
 
-</html>
+  </html>

@@ -7,7 +7,7 @@ from recommendations.test import predict
 from .models import Startup,Tickets,Bookings
 
 from .models import Startup
-from administrator.models import Fund,Incubation,AssignMentor,Documents
+from administrator.models import Fund,Incubation,AssignMentor,Documents,Milestones
 
 from .models import Startup,Tickets
 
