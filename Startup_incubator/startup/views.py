@@ -7,7 +7,7 @@ from recommendations.test import predict
 from .models import Startup,Tickets,Bookings
 
 from .models import Startup
-from administrator.models import Fund,Incubation,AssignMentor,Documents
+from administrator.models import Fund,Incubation,AssignMentor,Documents,Milestones
 
 from .models import Startup,Tickets
 
@@ -436,3 +436,28 @@ def upload_documents(request):
 	if request.method =="GET":
 		return render(request, 'startup/uploaddocs.html',{'errormessage':'',
 														  'startup':startup})
+
+def show_milestones(request):
+	print("asd")
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	milestones = Milestones.objects.filter(startup_id=startup.id)
+	
+	for milestone in milestones:
+		milestone.deadline = datetime.strptime(str(milestone.deadline), '%Y-%m-%d').strftime('%d/%m/%Y')
+		print(milestone.deadline)
+	num = len(milestones)/2
+	return render(request,"startup/timeline.html",{'startup':startup,'milestones':milestones,'msg':''})
+
+def complete_milestone(request,pk):
+	print("tets")
+	startup = Startup.objects.get(user__user_id=request.user.id)
+
+	milestone = Milestones.objects.get(id=pk)
+	print(milestone)
+	print("adasdasdasdas")
+	milestone.completed_startup	 = 1
+	milestone.startup_id = startup.id
+	milestone.startup_date = datetime.now()
+	milestone.save()
+	print(milestone.started)
+	return redirect("/startup/show_milestones")

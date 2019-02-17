@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Incubation,Fund,Updates,Documents
+from .models import Incubation,Fund,Updates,Documents,Milestones
 from django.shortcuts import render
 from startup.models import Startup,Founder,Tickets
 from login.models import Type
@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
 import datetime
+from datetime import datetime
 from administrator.models import AssignMentor
 
 # just a helper function. it can be reused for getting admin names
@@ -130,6 +131,20 @@ def show_startups(request):
 	return render(request, 'administrator/showstartups.html',{'startups_left':startups_left,
 															  'startups_right':startups_right,
 															  	'admin':get_admin(request.user.id)})
+def show_funded_startups(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
+	
+	startups = Startup.objects.filter(admin_funded=True)
+	size = len(startups)
+	left = int(size/2)
+
+	startups_right = startups[:left]
+	startups_left = startups[left:]
+
+	return render(request, 'administrator/showfundedstartups.html',{'startups_left':startups_left,
+															  'startups_right':startups_right,
+															  	'admin':get_admin(request.user.id),'msg':''})
 
 
 def show_investors(request):
@@ -334,3 +349,42 @@ def assign_mentor(request):
 		return redirect('/administrator')
 
 		return render(request,'front/login.html')
+
+@csrf_exempt
+def set_milestone(request,pk):
+	if request.method == "GET":
+		startup = Startup.objects.get(user__user_id=pk)
+		return render(request,'administrator/setmilestone.html',{'admin':get_admin(request.user.id),'startup':startup})
+	else:
+		startup = Startup.objects.get(user__user_id=pk)
+		milestone = Milestones()
+		milestone.title = request.POST['title']
+		date = request.POST['deadline']
+		milestone.description = request.POST['description']
+		val = datetime.datetime.strptime(date, "%Y-%m-%d").strftime("%Y-%m-%d")
+		milestone.deadline = datetime.datetime.strptime(val, "%Y-%m-%d").date()
+		milestone.startup_id = pk
+		milestone.save()
+		
+		startups = Startup.objects.filter(admin_funded=True)
+		size = len(startups)
+		left = int(size/2)
+		startups_right = startups[:left]
+		startups_left = startups[left:]
+		return render(request, 'administrator/showfundedstartups.html',{'startups_left':startups_left,
+															  'startups_right':startups_right,
+															  	'admin':get_admin(request.user.id),'msg':'success'})
+
+def show_milestone(request,pk):
+	startup = Startup.objects.get(user__user_id=pk)
+	milestones = Milestones.objects.filter(startup_id=startup.id)
+	return render(request,'administrator/timeline.html',{'admin':get_admin(request.user.id),'milestones':milestones})
+
+def complete_milestone(request,pk):
+	print("tets")
+	milestone = Milestones.objects.get(id=pk)
+	milestone.completed_admin  = 1
+	milestone.completed_admin_date = datetime.now()
+	milestone.save()
+	
+	return redirect("/administrator/show_funded_startups")
