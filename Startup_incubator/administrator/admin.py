@@ -13,5 +13,6 @@ admin.site.register(Updates)
 admin.site.register(Fund)
 admin.site.register(Incubation)
 admin.site.register(AssignMentor)
+admin.site.register(Milestones)
 
 

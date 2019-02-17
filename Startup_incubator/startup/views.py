@@ -23,11 +23,11 @@ from django.utils.dateparse import parse_date
 
 def dashboard(request):
 	if request.user.is_authenticated() :
-
-		try:
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		try :
 			startup = Startup.objects.get(user__user_id=request.user.id)
 		except:
-			return HttpResponse("User does not have a startup")
+			print("wrong")
 
 		msg = ""
 		if request.session.get('message', False):
@@ -40,17 +40,20 @@ def dashboard(request):
 			if incubation_request[0].accept :
 				accepted ="true"
 
-		startup = startup.description
 		
 		investors = []
+		recommend = {"email":"none","name":"none"}
+		if len(Investor.objects.all()) < 2:
+			return render(request,"startup/dashboard.html",{'startup':startup,'msg':msg,'accepted':accepted,
+														'recommend':recommend})
 		for i in Investor.objects.all():
 			temp = [i.name,i.description]
 			investors.append(temp)
 		print("before predict")
-		result = predict(investors,startup)
+		result = predict(investors,startup.description)
 
 		result = sorted(result, key=operator.itemgetter(1))
-		#result = result[::-1]
+		result = result[::-1]
 
 		print("result",result)
 		recommend = Investor.objects.all()[0]
@@ -203,7 +206,7 @@ def apply_incubation(request):
 		except:
 			return HttpResponse("User does not have a startup")
 
-		return render(request,'startup/apply_incubation.html',{'startup':startup,'accepted':"true"})
+		return render(request,'startup/apply_incubation.html',{'startup':startup,"accepted":"false"})
 	else:
 		try:
 			startup = Startup.objects.get(user__user_id=request.user.id)
@@ -581,7 +584,7 @@ def notifications(request):
 	print(x)
 	print(len(x))
 
-	return HttpResponse("test")		
+	return HttpResponse(str(x))		
 
 
 
