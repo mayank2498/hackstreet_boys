@@ -11,6 +11,10 @@ from login.models import Type
 from administrator.models import AssignMentor,Documents
 from administrator.models import Reviews
 
+from django.views.generic import View
+from io import BytesIO
+from django.template.loader import get_template
+from xhtml2pdf	import pisa
 
 def index(request):
 	mentor = Mentor.objects.get(user__user_id=request.user.id)
@@ -102,5 +106,45 @@ def startup_review(request,pk):
 		review.description = request.POST['desc']
 		review.save()
 		request.session['message'] = "your review is saved. Thanks for giving the valuable feedaback."
+		return redirect('/mentor')
+def render_to_pdf(template_src,context_dict={}):
+	template = get_template(template_src)
+	html = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")),result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
+
+
+def compute(request):
+		
+		template = get_template("invoice.html")
+		
+		
+		context = {
+			"order": "order",
+			"cart" :"cart",
+			"customer":"customer",
+		}
+		html = template.render(context)
+		pdf = render_to_pdf("invoice.html",context)
+		return HttpResponse(pdf,content_type='application/pdf')	
+
+@csrf_exempt
+def update(request):
+
+	mentor = Mentor.objects.get(user__user_id=request.user.id)
+	if request.method == "GET":
+		return render(request, 'mentor/mentorupdate.html',{'mentor':mentor})
+	else:
+		mentor.experience = request.POST['investment']
+		mentor.description = request.POST['aboutme']
+		mentor.expertise = request.POST['type']
+		image = request.FILES.get('image',False)
+		if image is not False:
+			startup.image = image
+		mentor.phone_number = request.POST['phoneno']
+		mentor.save()
 		return redirect('/mentor')
 
