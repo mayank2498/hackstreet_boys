@@ -119,7 +119,9 @@ def login_user(request):
 
 
 
-
+def home(request):
+	print("yes")
+	return render(request,"front/index.html")
 
 
 

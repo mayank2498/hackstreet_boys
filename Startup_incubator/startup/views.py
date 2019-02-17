@@ -377,7 +377,7 @@ def show_bookings(request):
 		today = date.today()
 		print(today)
 		bookings = Bookings.objects.filter(date__gt=today).order_by('date')
-		store = datetime.today().weekday()+1
+		store = datetime.today().weekday()
 		print("sd")
 		for p in bookings:
 			p.day = calendar.day_name[p.date.weekday()]
