@@ -345,8 +345,13 @@ def reject_connection(request,pk):
 
 
 def my_videos(request):
-	
-	return render(request,'startup/videolist.html')
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	videos = Documents.objects.filter(startup__user__user_id=request.user.id,category="video")
+	if len(videos) == 0:
+		request.session["message"] = "No videos yet !"
+		return redirect('/startup')
+	return render(request,'startup/videolist.html',{'videos':videos,
+													'startup':startup})
 
 @csrf_exempt
 def generate_ticket(request):
@@ -436,3 +441,33 @@ def upload_documents(request):
 	if request.method =="GET":
 		return render(request, 'startup/uploaddocs.html',{'errormessage':'',
 														  'startup':startup})
+	else:
+		startup = Startup.objects.get(user__user_id=request.user.id)
+		document = Documents()
+		document.category = "document"
+		document.typ = "startup"
+		document.title = request.POST.get('title',False)
+		document.startup_id = startup.id
+		document.doc = request.FILES.get('document',False)
+		
+		document.save()
+		request.session["message"] = "Document added successfully !"
+		return redirect('/startup/my_documents')
+
+def my_documents(request):
+	msg = ""
+	if request.session.get('message', False):
+		msg = request.session.get('message')
+		del request.session['message']
+		print(msg)
+	docs = Documents.objects.filter(startup__user__user_id=request.user.id,typ="startup",category="document")
+	startup = Startup.objects.get(user__user_id=request.user.id)
+	left = int(len(docs)/2)
+	
+	docs_right = docs[:left]
+	docs_left = docs[left:]
+
+	return render(request,"startup/my_documents.html",{'startup':startup,
+												  	   'docs_left':docs_left,
+												  	   'docs_right':docs_right,
+												  	   'msg':msg})

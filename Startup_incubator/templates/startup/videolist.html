@@ -32,23 +32,34 @@
    <table class="table table-bordered">
     <thead>
       <tr>
-        <th>S No.</th>
+        <th>Shared By</th>
         <th>Video name</th>
         <th>Link</th>
       </tr>
     </thead>
     <tbody>
+      {% for v in videos %}
       <tr>
-        <td>1</td>
-        <td>mihir</td>
+        <td>
+          {% if v.typ == "mentor" %}
+             <b style="color:yellow; ">{{ v.mentor_name }}&nbsp; </b>
+           (&nbsp; Mentor&nbsp; )
+          {% endif %}
+          {% if v.typ == "startup" %}
+             <b style="color:yellow; ">{{ startup.name }}&nbsp; </b>
+           (&nbsp; Startup&nbsp; )
+          {% endif %}
+        </td>
+        <td>{{ v.title }}</td>
         <td><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Open</button></td>
       </tr>
+      {% endfor %}
     </tbody>
   </table>
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
-
+   
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
@@ -56,8 +67,11 @@
         <h4 class="modal-title">Video</h4>
       </div>
       <div class="modal-body">
+        {% for v in videos %}
         <p><div class="embed-responsive embed-responsive-16by9">
-  <iframe class="embed-responsive-item" src="https://www.indiatoday.in/elections/video/what-happened-during-rafale-deal-was-treason-rahul-gandhi-sharpens-attack-1454162-2019-02-12" allowfullscreen></iframe>
+
+  <iframe width="854" height="480" src="{{v.video_url}}" frameborder="0" allowfullscreen></iframe>
+  {% endfor %}
 </div></p>
       </div>
       <div class="modal-footer">

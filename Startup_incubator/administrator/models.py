@@ -9,6 +9,9 @@ class Documents(models.Model):
 	date = models.DateField(default=datetime.date.today)
 	category = models.CharField(max_length= 1000 , null=True, default='document')
 	typ = models.CharField(max_length= 1000 , null=True, default='startup')
+	video_url = models.CharField(max_length= 1000 , null=True, default='https://www.youtube.com/watch?v=6FlMhxOqiIg')
+	mentor_name = models.CharField(max_length= 1000 , null=True, default='Mentor')
+	title = models.CharField(max_length= 1000 , null=True, default='some video/doc')
 
 class Updates(models.Model):
 	info = models.CharField( max_length= 1000 , null=True)

@@ -28,6 +28,7 @@ urlpatterns = [
 
     
     url(r'^my_videos/$',views.my_videos,name='my_videos'),
+    url(r'^my_documents/$',views.my_documents,name='my_documents'),
 
 
     url(r'^generate_ticket/$',views.generate_ticket,name='generate_ticket'),
