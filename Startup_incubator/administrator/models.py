@@ -9,13 +9,16 @@ class Documents(models.Model):
 	date = models.DateField(default=datetime.date.today)
 	category = models.CharField(max_length= 1000 , null=True, default='document')
 	typ = models.CharField(max_length= 1000 , null=True, default='startup')
+	video_url = models.CharField(max_length= 1000 , null=True, default='https://www.youtube.com/watch?v=6FlMhxOqiIg')
+	mentor_name = models.CharField(max_length= 1000 , null=True, default='Mentor')
+	title = models.CharField(max_length= 1000 , null=True, default='some video/doc')
 
 class Updates(models.Model):
 	info = models.CharField( max_length= 1000 , null=True)
 	schedule = models.DateTimeField(default=datetime.datetime.now())
 	title = models.CharField(max_length=1000,null=True)
 	date = models.DateTimeField(default=datetime.datetime.now(),blank=True)
-
+	image = models.FileField(upload_to='event_images/',default="http://nitrr.ac.in/images/nitrr.gif")
 
 class Fund(models.Model):
 	typ = models.CharField(max_length=100,null=True)
@@ -41,7 +44,7 @@ class AssignMentor(models.Model):
 	date = models.DateField(default=datetime.date.today)
 
 class Milestones(models.Model):
-	startup = models.ForeignKey(Startup,on_delete=models.CASCADE)
+	startup = models.ForeignKey(Startup,null=True,default=1,on_delete=models.CASCADE,blank=True)
 	Date = models.DateField(default=datetime.date.today)
 	title = models.CharField(null=True,max_length=1000)
 	description = models.CharField(null=True,max_length=1000)

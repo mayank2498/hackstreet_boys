@@ -14,7 +14,8 @@ urlpatterns = [
     url(r'^login/',include('login.urls',namespace='login')),
     url(r'^administrator/',include('administrator.urls',namespace='administrator')),
     url(r'^register/',views.register, name='register'),
-    
+    url(r'^library/',include('library.urls',namespace='library')),
+    url(r'^rent/',include('rent.urls',namespace='rent'))
 ]
 
 

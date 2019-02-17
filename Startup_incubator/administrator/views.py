@@ -214,7 +214,7 @@ def update_info(request):
 		return redirect('/login')
 
 	if request.method == "GET":
-		return render(request, 'administrator/addupdates.html',{'errormessage':'','admin':get_admin(request.user.id)})
+		return render(request, 'administrator/addupdates.html',{'admin':get_admin(request.user.id)})
 	
 	else:
 		info = request.POST['about']
@@ -224,6 +224,8 @@ def update_info(request):
 		updates.info = info
 		updates.schedule =schedule
 		updates.title = title
+		updates.image = request.FILES.get('image',False)
+		print(updates.image)
 		updates.save()
 		print(updates.date)
 		print(updates.schedule)
