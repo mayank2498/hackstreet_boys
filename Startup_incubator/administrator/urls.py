@@ -25,8 +25,10 @@ urlpatterns = [
     url(r'^reviews$', views.reviews, name='reviews'),
     url(r'^set_milestone/(?P<pk>[0-9]+)$',views.set_milestone,name='set_milestone'),
     url(r'^show_milestone/(?P<pk>[0-9]+)$',views.show_milestone,name='show_milestone'),
+    url(r'^show_funded_startups$', views.show_funded_startups, name='show_funded_startups'),
     url(r'^complete_milestone/(?P<pk>[0-9]+)$',views.complete_milestone,name='complete_milestone'),
     
     
+
 
 ]

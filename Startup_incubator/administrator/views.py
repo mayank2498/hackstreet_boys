@@ -344,10 +344,10 @@ def assign_mentor(request):
 @csrf_exempt
 def set_milestone(request,pk):
 	if request.method == "GET":
-		startup = Startup.objects.get(user__user_id=pk)
+		startup = Startup.objects.get(id=pk)
 		return render(request,'administrator/setmilestone.html',{'admin':get_admin(request.user.id),'startup':startup})
 	else:
-		startup = Startup.objects.get(user__user_id=pk)
+		startup = Startup.objects.get(id=pk)
 		milestone = Milestones()
 		milestone.title = request.POST['title']
 		date = request.POST['deadline']
@@ -364,22 +364,37 @@ def set_milestone(request,pk):
 		startups_left = startups[left:]
 		return render(request, 'administrator/showfundedstartups.html',{'startups_left':startups_left,
 															  'startups_right':startups_right,
+	
 															  	'admin':get_admin(request.user.id),'msg':'success'})
 
 def show_milestone(request,pk):
-	startup = Startup.objects.get(user__user_id=pk)
+	startup = Startup.objects.get(id=pk)
 	milestones = Milestones.objects.filter(startup_id=startup.id)
 	return render(request,'administrator/timeline.html',{'admin':get_admin(request.user.id),'milestones':milestones})
+
+def show_funded_startups(request):
+	if not request.user.is_authenticated() :
+		return redirect('/login')
+	
+	startups = Startup.objects.filter(admin_funded=True)
+	size = len(startups)
+	left = int(size/2)
+
+	startups_right = startups[:left]
+	startups_left = startups[left:]
+
+	return render(request, 'administrator/showfundedstartups.html',{'startups_left':startups_left,
+															  'startups_right':startups_right,
+															  	'admin':get_admin(request.user.id),'msg':''})
 
 def complete_milestone(request,pk):
 	print("tets")
 	milestone = Milestones.objects.get(id=pk)
 	milestone.completed_admin  = 1
-	milestone.completed_admin_date = datetime.now()
+	
 	milestone.save()
 	
 	return redirect("/administrator/show_funded_startups")
-
 def reviews(request):
 	reviews = Reviews.objects.all()
 	return render(request,'administrator/reviews.html',{'reviews':reviews})

@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^show_bookings/$',views.show_bookings,name='show_bookings'),
 
     url(r'^my_videos/$',views.my_videos,name='my_videos'),
-
+url(r'^complete_milestone/(?P<pk>[0-9]+)$',views.complete_milestone,name='complete_milestone'),
     url(r'^show_milestones/$',views.show_milestones,name='show_milestones'),
     url(r'^mentor_review/(?P<pk>[0-9]+)$',views.mentor_review,name='mentor_review'),
     url(r'^my_documents/$',views.my_documents,name='my_documents'),
